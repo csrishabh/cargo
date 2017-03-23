@@ -1,0 +1,39 @@
+.row{
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.myGrid {
+    width: 1150px;
+    height: 300px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  
+.red .ui-grid-cell-contents
+{
+  background-color: #b0ffc5;
+  color: black;
+}
+
+.footer{
+	margin-right: 10px;
+	bottom: 0;
+}
+
+.alert{
+	margin-top: 20px;
+}
+
+.dropdown{
+	width: 125px;
+}
+
+.tablePadding{
+	margin-left: 10px;
+	margin-right: 20px;
+}
+
+.header{
+	background-color: #0196E3;
+	
+}

@@ -1,0 +1,22 @@
+
+<nav class="navbar navbar-custom">
+  <div  ng-controller = "myctrl2 as ctrl" class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span> 
+      </button>
+      <a class="navbar-brand"  href="#"  ng-click = "ctrl.book()">Home</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a   href="#" ng-click = "ctrl.showConsignment()">Collection Report</a></li>
+        <li><a href="#"  ng-click = "ctrl.dispatcherDetails()">Dispatch Report</a></li>
+        <li><a href="#"  ng-click = "ctrl.addCityVia()">City & Via</a></li>
+        <li><a href="#"  ng-click = "ctrl.addPerson()">Add Person</a></li>
+      </ul>
+    </div>
+    
+  </div>
+</nav>

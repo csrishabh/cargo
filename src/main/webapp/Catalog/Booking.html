@@ -1,0 +1,263 @@
+<div  ng-include="'header.html'"></div>
+<div ng-controller = "BookingController as  ccontroller" class="container-fluid">
+    	<div class ="row">
+    		<div class="col-md-2">
+    		<label>Bulti Number:</label>
+    		</div>
+    		<div class="col-md-2">
+    		<input type="text" class="form-control" id="consignor_id" ng-model="consignment.id" ng-readonly="true">
+    		</div>
+    	</div>
+   	
+  <div class="row">
+    <div class="col-md-6">
+    	<div class ="row">
+    		<div class="col-md-4">
+    		<label>Consignor Name:</label>
+    		</div>
+    		<div class="col-md-8">
+    		<select next-on-enter ui-select2 class ="form-control" ng-model="consignor_index" ng-change="selectConsignor()">
+    			 <option value=""></option>
+    			 <option ng-repeat="consignor in consignors" value="{{$index}}">{{consignor.name}}</option>
+    		</select>
+    		
+    		<input type="hidden" next-on-enter type="text" class="form-control" id="consignor_Id" ng-model="consignor.id">
+    		<input type="hidden" next-on-enter type="text" class="form-control" id="consignor_Name" ng-model="consignor.name">
+    		</div>
+    	</div>
+    	
+    	<div class ="row">
+    		<div class="col-md-5">
+    		<label>Consignor Address:</label>
+    		</div>
+    		<div class="col-md-7">
+    		<input next-on-enter type="text" class="form-control" id="consignor_Add1" ng-model="consignor.add" ng-readonly="true">
+    		</div>
+    	</div>
+    	
+    	
+    	<div class ="row">
+    		<div class="col-md-1">
+    		<label>State:</label>
+    		</div>
+    		<div class="col-md-3">
+    		<input next-on-enter type="text" class="form-control" id=consignor_State ng-model="consignor.state" ng-readonly="true">
+    		</div>
+    		<div class="col-md-1">
+    		<label>City:</label>
+    		</div>
+    		<div class="col-md-3">
+    		<input next-on-enter type="text" class="form-control" id=consignor_City ng-model="consignor.city" ng-readonly="true">
+    		</div>
+    		<div class="col-md-1">
+    		<label>Pin:</label>
+    		</div>
+    		<div class="col-md-3">
+    		<input next-on-enter type="text" class="form-control" id=consignor_Pin ng-model="consignor.pin" ng-readonly="true">
+    		</div>
+    	</div>
+    	
+    	<div class ="row">
+    		<div class="col-md-2">
+    		<label>Mobile:</label>
+    		</div>
+    		<div class="col-md-10">
+    		<input next-on-enter type="text" class="form-control" id="consignor_Mobile" ng-model="consignor.mobile" ng-readonly="true">
+    		</div>
+    	</div>
+    	
+    	<div class ="row">
+    		<div class="col-md-3">
+    		<label>Payment Type :</label>
+    		</div>
+    		
+    		<div class="col-md-3">
+    			<label class="radio-inline">
+     			 <input next-on-enter type="radio" name="payment_Type" value = "Cash" ng-model="consignment.payment_Type">Cash
+   		 		</label>
+    		</div>
+    		
+    		
+    		<div class="col-md-3">
+    			<label class="radio-inline">
+     			 <input next-on-enter type="radio" name="payment_Type" value = "Credit" ng-model="consignment.payment_Type">Credit
+   		 		</label>
+    		</div>
+    		
+    	
+    		<div class="col-md-3">
+    			<label class="radio-inline">
+     			 <input next-on-enter type="radio" name="payment_Type" value = "To Pay" ng-model="consignment.payment_Type">To Pay
+   		 		</label>
+    		</div>
+    	</div>
+    	
+    		<div class ="row">
+    		<div class="col-md-3">
+    		<label>Type :</label>
+    		</div>
+    		
+    		<div class="col-md-3">
+    			<label class="radio-inline">
+     			 <input next-on-enter type="radio" name="type" value="CRTN" ng-model="consignment.type">CRTN
+   		 		</label>
+    		</div>
+    		
+    		
+    		<div class="col-md-3">
+    			<label class="radio-inline">
+     			 <input next-on-enter type="radio" name="type" value="BORI" ng-model="consignment.type">BORI
+   		 		</label>
+    		</div>
+    		
+    	
+    		<div class="col-md-3">
+    			<label class="radio-inline">
+     			 <input next-on-enter type="radio" name="type"  value="OPEN" ng-model="consignment.type">OPEN
+   		 		</label> 
+    		</div>
+    	</div>
+    	
+    	<div class ="row">
+    		<div class="col-md-4">
+    		<label>Remarks:</label>
+    		</div>
+    		<div class="col-md-8">
+    		<input next-on-enter type="text" class="form-control" id="remarks" ng-model="consignment.remarks">
+    		</div>
+    	</div>
+    	
+    </div>
+    
+    <div class="col-md-6">
+    	<div class ="row">
+    		<div class="col-md-4">
+    		<label>Consignee Name:</label>
+    		</div>
+    		<div class="col-md-8">
+    		<select next-on-enter ui-select2 class ="form-control" ng-model="consignee_index" ng-change="selectConsignee()">
+    			 <option value=""></option>
+    			 <option ng-repeat="consignee in consignees" value="{{$index}}">{{consignee.name}}</option>
+    		</select> 
+    		<input type="hidden" next-on-enter type="text" class="form-control" id="consignee_Id" ng-model="consignee.id">
+    		<input type="hidden" next-on-enter type="text" class="form-control" id="consignee_Name" ng-model="consignee.name">   		
+    		</div>
+    	</div>
+    	
+    	<div class ="row">
+    		<div class="col-md-5">
+    		<label>Consignee Address:</label>
+    		</div>
+    		<div class="col-md-7">
+    		<input next-on-enter type="text" class="form-control" id="consignee_Add1" ng-model="consignee.add" ng-readonly="true">
+    		</div>
+    	</div>
+    	
+    	
+    	<div class ="row">
+    		<div class="col-md-1">
+    		<label>State:</label>
+    		</div>
+    		<div class="col-md-3">
+    		<input next-on-enter type="text" class="form-control" id=consignee_State ng-model="consignee.state" ng-readonly="true">
+    		</div>
+    		<div class="col-md-1">
+    		<label>City:</label>
+    		</div>
+    		<div class="col-md-3">
+    		<input next-on-enter type="text" class="form-control" id=consignee_City ng-model="consignee.city" ng-readonly="true">
+    		</div>
+    		<div class="col-md-1">
+    		<label>Pin:</label>
+    		</div>
+    		<div class="col-md-3">
+    		<input next-on-enter type="text" class="form-control" id=consignee_Pin ng-model="consignee.pin" ng-readonly="true">
+    		</div>
+    	</div>
+    	
+    	<div class ="row">
+    		<div class="col-md-2">
+    		<label>Mobile:</label>
+    		</div>
+    		<div class="col-md-10">
+    		<input next-on-enter type="text" class="form-control" id="consignee_Mobile" ng-model="consignee.mobile" ng-readonly="true">
+    		</div>
+    	</div>
+    	
+    	<div class ="row">
+    		
+    		<div class="col-md-2">
+    		<label>Quantity:</label>
+    		</div>
+    		<div class="col-md-2">
+    		<input next-on-enter type="number" class="form-control" id=quantity ng-model="consignment.quantity" ng-init = "consignment.quantity=0">
+    		</div>
+    		
+    		<div class="col-md-2">
+    		<label>Weight:</label>
+    		</div>
+    		<div class="col-md-2">
+    		<input next-on-enter type="number"  class="form-control"  id=weight ng-model="consignment.weight"  ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" ng-init = "consignment.weight=0">
+    		</div>
+    		
+    		<div class="col-md-1">
+    		<label>Rate:</label>
+    		</div>
+    		<div class="col-md-3">
+    		<input next-on-enter type="number" class="form-control" id=rate ng-model="consignment.rate"   ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" ng-init = "consignment.rate=0">
+    		</div>
+    	</div>
+    	
+    	<div class ="row">	
+    		<div class="col-md-3">
+    		<label>Carrige Charge:</label>
+    		</div>
+    		<div class="col-md-3">
+    		<input next-on-enter type="number" class="form-control" id=carrige_charge ng-model="consignment.carrige_charge"  ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" ng-init = "consignment.carrige_charge=0">
+    		</div>
+    		
+    		<div class="col-md-3">
+    		<label>Other Charge:</label>
+    		</div>
+    		<div class="col-md-3">
+    		<input next-on-enter type="number" class="form-control" id=discount ng-model="consignment.other_charge"  ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" ng-init = "consignment.other_charge=0">
+    		</div>	
+    	</div>
+    	
+    	<div class ="row">	
+    		<div class="col-md-3">
+    		<label>S Tax:</label>
+    		</div>
+    		<div class="col-md-3">
+    		<input next-on-enter type="number" class="form-control" id=s_Tax ng-model="consignment.s_Tax"  ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" ng-init = "consignment.s_Tax=0" ng-blur="ccontroller.checkOnBlur()">
+    		</div>
+    		
+    		<div class="col-md-2">
+    		<label>Basic Freight:</label>
+    		</div>
+    		<div class="col-md-1">
+            <input ng-model="checked" type="checkbox" value="">
+           </div>
+    		<div class="col-md-3">
+    		<input next-on-enter type="number" class="form-control" id=discount ng-model = "basic_freight"  ng-disabled ="!checked"  ng-readonly="!checked" ng-blur="ccontroller.updateRate()" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01">
+    		</div>	
+    	</div>
+    	
+    	<div class ="row">
+    		<div class="col-md-3">
+    		<label>Total Amount:</label>
+    		</div>
+    		<div class="col-md-9">
+    		<label ng-model = "basic_freight">{{consignment.weight*consignment.rate + consignment.carrige_charge + consignment.other_charge + consignment.s_Tax }}</label>
+    		</div>
+    	</div>
+    	
+    	
+    </div>
+  </div>
+  
+  <button type="submit" class="btn btn-info" value="Add Consignment" ng-click="ccontroller.addConsignment(consignment,consignor,consignee)">Book</button>
+ <div uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" dismiss-on-timeout = 2000 class="alert">{{alert.msg}}</div>   
+
+</div>
+

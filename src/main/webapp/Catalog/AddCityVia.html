@@ -1,0 +1,44 @@
+
+<div class = "container"  >
+<div ng-include="'header.html'"></div>
+<div ng-controller="CityViaController as cvcontroller" class="container-fluid">
+             
+           <div class ="row">
+    		
+    		<div class="col-md-3">
+    		<label> Type :</label>
+    		</div>
+    		
+    		<div class="col-md-3">
+    			<label class="radio-inline">
+     			 <input next-on-enter type="radio" name="type" value = "via" ng-model="type">Via
+   		 		</label>
+    		</div>
+    		
+    		
+    		<div class="col-md-3">
+    			<label class="radio-inline">
+     			 <input next-on-enter type="radio" name="type" value = "city" ng-model="type">city
+   		 		</label>
+    		</div>
+    		
+    	</div>
+            
+        <div class ="row">
+    		<div class="col-md-4">
+    		<label>Value:</label>
+    		</div>
+    		<div class="col-md-8">
+    		<input next-on-enter type="text" class="form-control" id="remarks" ng-model="value">
+    		</div>
+    	</div>
+    	
+    		
+    		<button type="submit" class="btn btn-info" value="Add" ng-click="cvcontroller.add(value,type)">Add</button>
+    		
+    		<div uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" dismiss-on-timeout = 2000 class="alert">{{alert.msg}}</div>
+        
+        
+
+</div>
+</div>

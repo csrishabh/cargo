@@ -1,0 +1,121 @@
+
+<div class = "container"  >
+<div ng-include="'header.html'"></div>
+
+
+<div ng-controller="ConsignmentController as ccontroller" class="container-fluid">
+ <!-- Trigger the modal with a button -->
+ <button type="button" class="btn btn-info" data-toggle="modal" ng-click = "ccontroller.getPayments(mySelections)">Show Payment</button>
+ <div ng-include="'paymentInfo.html'"></div>
+  <div class="row">
+  			<div class="col-md-6">
+            <div class="col-md-2">
+    		<label>Type :</label>
+    		</div>
+    		
+    		<div class="col-md-2">
+    			<label class="radio-inline">
+     			 <input type="radio" name="type" value="All" ng-model="search.type" checked="checked">All
+   		 		</label>
+    		</div>
+    		
+    		
+    		<div class="col-md-3">
+    			<label class="radio-inline">
+     			 <input type="radio" name="type" value="To Pay" ng-model="search.type">To Pay
+   		 		</label>
+    		</div>
+    		
+    	
+    		<div class="col-md-2">
+    			<label class="radio-inline">
+     			 <input type="radio" name="type"  value="Cash" ng-model="search.type" >Cash
+   		 		</label> 
+    		</div>
+    		</div>
+    		
+    		<div class="col-md-6">
+    		<div class="col-md-2">
+    		<label>From :</label>
+    		</div>
+    		
+    		<div class="col-md-4">
+    		<input type="date" class="form-control" id=date1 ng-model="search.date1">
+    		</div>
+    		
+    		<div class="col-md-2">
+    		<label>To :</label>
+    		</div>
+    		
+    		<div class="col-md-4">
+    		<input type="date" class="form-control" id=date1 ng-model="search.date2" >
+    		</div>
+    		</div>
+  </div>
+  
+  <div class="row">
+  			<div class="col-md-6">
+            <div class="col-md-2">
+    		<label>Status :</label>
+    		</div>
+    		
+    		<div class="col-md-2">
+    			<label class="radio-inline">
+     			 <input type="radio" name="status" value="All" ng-model="search.status" checked="checked">All
+   		 		</label>
+    		</div>
+    		
+    		
+    		<div class="col-md-3">
+    			<label class="radio-inline">
+     			 <input type="radio" name="status" value="BOOKED" ng-model="search.status">Booked
+   		 		</label>
+    		</div>
+    		
+    	
+    		<div class="col-md-2">
+    			<label class="radio-inline">
+     			 <input type="radio" name="status"  value="DISPATCHED" ng-model="search.status">Dispatched
+   		 		</label> 
+    		</div>
+    		</div>
+    		
+    		<div class="col-md-6">
+    		<div class="col-md-2">
+    		<button  class="btn btn-info" value="Search" ng-click ="ccontroller.getConsignments(search)">Search</button>
+    		</div>
+    		<div class="col-md-4">
+    		<button class="btn btn-info pull-right"
+              ng-csv="ccontroller.generateCsv()" filename="Collection Report.csv" field-separator="," decimal-separator="." csv-header="getHeader()"
+              >Export</button>
+             </div>
+    		</div>
+    </div>
+  
+   <div class="row">
+    <div class="col-sm-10">
+     <div ui-grid="ccontroller.gridOptions" ui-grid-resize-columns ui-grid-move-columns ui-grid-selection class="myGrid"></div>
+    </div>
+    
+    <div class="row">
+    <div class="col-sm-6">
+    <button class="btn btn-info" value="Dispatch" ng-click ="ccontroller.dispatch(mySelections)">Dispatch</button>
+    </div>
+    
+    <div class="col-sm-6">
+    <button class="btn btn-info pull-right" value="Delete"  ng-click ="ccontroller.deleteConsignments(mySelections)">Delete</button>
+    </div>
+    
+    </div>
+   
+  </div>
+  
+  <div uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" dismiss-on-timeout = 2000 class="alert">{{alert.msg}}</div>
+</div>
+
+
+</div>
+
+
+
+

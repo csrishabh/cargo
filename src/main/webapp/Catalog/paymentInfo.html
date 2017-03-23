@@ -1,0 +1,55 @@
+
+<!-- Modal -->
+<div id="paymentDedtailsModal" class="modal fade bs-example-modal-lg" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content" style="border-radius: 25px">
+      <div class="modal-header">
+        <button type="button" class="close" ng-click="ccontroller.addPayment(false)" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Payment Details</h4>
+       
+        <h4 align="left"><span class="label label-primary">Consignment Number : {{selectConsignmentId}}</span></h4>
+        <h4 align="right"><span class="label label-default">Total Amount : {{selectConsignmentTotalAmt}}</span></h4>
+      </div>
+  
+      <table class="table table-condensed table-striped table-hover">
+        <thead>
+            <tr>
+                <th class="text-center">Payment Date</th>
+                <th class="text-center">Type</th>
+                <th class="text-center">Cheque Number</th>
+                <th class="text-center">Payment Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+        	<tr ng-repeat="payment in payments">
+                <td class="text-center">{{payment.date}}</td>
+                <td class="text-center">{{payment.type}}</td>
+                <td class="text-center">{{payment.chequeNum}}</td>
+                <td class="text-center">{{payment.amount}}</td>
+            </tr>
+            <tr ng-show="addPayment">
+                <td> <input type="date" class="form-control" id=date ng-model="payment.date"> </td>
+                <td >
+                <select  ui-select2 class ="dropdown"  ng-model="payment.type">
+    			 <option value="CASH">CASH</option>
+    			 <option value="CHEQUE">CHEQUE</option>
+    			 <option value="DISCOUNT">DISCOUNT</option>
+    		    </select>
+    		    </td>
+                <td ><input type="text" class="form-control" id="payment_type" ng-model="payment.chequeNum"></td>
+                <td ><input type="text" class="form-control" id="payment_type" ng-model="payment.amount"></td>
+            </tr>
+        </tbody>
+    </table>
+      <div class="modal-footer">
+        <button ng-hide="addPayment"type="button" class="btn btn-info" ng-click="ccontroller.addPayment(true)">Add Payment</button>
+        <button ng-show="addPayment" type="button" class="btn btn-info" ng-click="ccontroller.savePayment(payment)">Save</button>
+        <button type="button" class="btn btn-info" data-dismiss="modal" ng-click="ccontroller.addPayment(false)" >Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+

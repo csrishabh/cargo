@@ -1,0 +1,70 @@
+<div  ng-include="'header.html'"></div>
+<div ng-controller = "personController as  pcontroller" class="container-fluid">
+<div class ="row">
+    		<div class="col-md-4">
+    		<label>Name:</label>
+    		</div>
+    		<div class="col-md-8">
+    		<input next-on-enter type="text" class="form-control" id="person_Name" ng-model="person.name">
+    		</div>
+    	</div>
+    	
+    	<div class ="row">
+    		<div class="col-md-5">
+    		<label>Address:</label>
+    		</div>
+    		<div class="col-md-7">
+    		<input next-on-enter type="text" class="form-control" id="person_Add1" ng-model="person.add">
+    		</div>
+    	</div>
+    	
+    	
+    	<div class ="row">
+    		<div class="col-md-1">
+    		<label>State:</label>
+    		</div>
+    		<div class="col-md-3">
+    		<input next-on-enter type="text" class="form-control" id=person_State ng-model="person.state">
+    		</div>
+    		<div class="col-md-1">
+    		<label>City:</label>
+    		</div>
+    		<div class="col-md-3">
+    		<select next-on-enter ui-select2 class ="dropdown" ng-model="person.city">
+    			 <option value=""></option>
+    			 <option ng-repeat="city in cities" value="{{city.name}}">{{city.name}}</option>
+    		</select>
+    		<!-- <input next-on-enter type="text" class="form-control" id=person_country ng-model="consignment.person_city"> -->
+    		</div>
+    		<div class="col-md-1">
+    		<label>Pin:</label>
+    		</div>
+    		<div class="col-md-3">
+    		<input next-on-enter type="text" class="form-control" id=person_Pin ng-model="person.pin">
+    		</div>
+    	</div>
+    	
+    	<div class ="row">
+    		<div class="col-md-2">
+    		<label>Mobile:</label>
+    		</div>
+    		<div class="col-md-10">
+    		<input next-on-enter type="text" class="form-control" id="person_Mobile" ng-model="person.mobile">
+    		</div>
+    	</div>
+    	
+    	<div class ="row">
+    		<div class="col-md-2">
+    		<label>Type:</label>
+    		</div>
+    		<div class="col-md-10">
+    		<select next-on-enter ui-select2 class ="dropdown" ng-model="person.type">
+    			 <option value="CONSIGNOR">CONSIGNOR</option>
+    			 <option value="CONSIGNEE">CONSIGNEE</option>
+    	    </select>
+    		</div>
+    	</div>
+    	<div uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" dismiss-on-timeout = 2000 class="alert">{{alert.msg}}</div>
+    	<button type="submit" class="btn btn-info" value="Add Person" ng-click="pcontroller.addPerson(person)">Add</button>
+  </div>
+ 	

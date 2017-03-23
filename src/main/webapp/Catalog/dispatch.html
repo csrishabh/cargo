@@ -1,0 +1,61 @@
+
+<div class = "container"  >
+<div ng-include="'header.html'"></div>
+<div ng-controller="DispatcherController as dcontroller" class="container-fluid">
+             
+            <div class ="row">
+    		<div class="col-md-2">
+    		<label>Dispatch ID:</label>
+    		</div>
+    		<div class="col-md-2">
+    		<input type="text" class="form-control" id="consignor_id" ng-model="dispatcher.id" ng-readonly="true" ng-init = "dispatcher.id=0">
+    		</div>
+    	    </div>
+            
+            <div class="row">
+            <div class="col-md-12">
+    		<div ui-grid="dcontroller.gridOptions"  ui-grid-resize-columns ui-grid-selection class="myGrid"></div>
+    		</div>	
+    		</div>
+    		
+    		<div class="row">
+            
+            <div class="col-md-2">
+    		<label>Driver Name:</label>
+    		</div>
+            
+            <div class="col-md-2">
+    		<input next-on-enter type="text" class="form-control" id="consignor_Name" ng-model="dispatcher.driver_Name">
+    		</div>	
+    		
+    		<div class="col-md-2">
+    		<label>VIA:</label>
+    		</div>
+    		
+    		<div class="col-md-2">
+    		<select next-on-enter ui-select2 class ="dropdown"  ng-model="dispatcher.city">
+    			 <option value=""></option>
+    			 <option ng-repeat="city in cities" value="{{city.city}}">{{city.city}}</option>
+    		</select>
+    		</div>
+    		
+    		<div class="col-md-2">
+    		<label>State:</label>
+    		</div>
+    			
+    		<div class="col-md-2">
+    		<input next-on-enter type="text" class="form-control" id="consignor_Name" ng-model="dispatcher.state">
+    		</div>	
+    		</div>
+    		
+    		<div class="row">
+            <div class="col-md-2">
+    		<button class="btn btn-info"  value="Submit" ng-click="dcontroller.addDispatcher(dispatcher)">Submit</button>
+    		</div>	
+    		</div>
+    		<div uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" dismiss-on-timeout = 2000 class="alert">{{alert.msg}}</div>
+        
+        
+
+</div>
+</div>
