@@ -182,7 +182,7 @@ app.controller('CityViaController', [ '$http' ,'$scope', function($http , $scope
 
 
 
-app.controller('BookingController', [ '$http' ,'$scope', function($http , $scope){
+app.controller('BookingController', [ '$http' ,'$scope', '$document', function($http , $scope , $document){
 	
 	$scope.responceCome = false;
 	$scope.cities=[];
@@ -192,12 +192,13 @@ app.controller('BookingController', [ '$http' ,'$scope', function($http , $scope
 	$scope.consignee_index;
 	$scope.consignor;
 	$scope.consignee;
+	$scope.paidBy;
 	
 	$scope.selectConsignor = function(){
-		$scope.consignor  = $scope.consignors[$scope.consignor_index];
+		$scope.consignor  = $scope.consignors[$scope.consignor_index-1];
 	  } 
 	$scope.selectConsignee = function(){
-		$scope.consignee  = $scope.consignees[$scope.consignee_index];
+		$scope.consignee  = $scope.consignees[$scope.consignee_index-1];
 	  } 
 	
 	this.addConsignment = function(consignment,consignor,consignee){
@@ -211,7 +212,12 @@ app.controller('BookingController', [ '$http' ,'$scope', function($http , $scope
 			$scope.consignor = {};
 			$scope.consignee = {};
 			$scope.getNextId();
+			$scope.consignor_index = null;
+			$scope.consignee_index = null;
+			//document.getElementById("consigneeName").selectedIndex = 0;
+			//document.getElementById("consignorName").selectedIndex = 0;
 			$scope.addAlert('success', 'Item Booked Successfully');
+			//$scope.digest();
 		});	
 	}
 	
@@ -239,6 +245,26 @@ app.controller('BookingController', [ '$http' ,'$scope', function($http , $scope
 			$scope.cities = data;
 		});
 	}
+	
+	$scope.selectPaidBy = function(value){
+		if(value == "Cash"){
+		$scope.header = "Paid By";
+		}
+		else{
+			$scope.header = "Due on";
+		}
+		$('#paidByModal').modal('show');
+	}
+	
+	$scope.closeModel = function(){
+		if($scope.consignment.paidBy != undefined){
+		$('#paidByModal').modal('hide');
+		}
+		else{
+			$scope.addAlert('warning', 'Please Select one');	
+		}
+	}
+	
 	this.updateRate = function(){
 		$scope.consignment.rate = ($scope.basic_freight-($scope.consignment.carrige_charge + $scope.consignment.other_charge + $scope.consignment.s_Tax))/$scope.consignment.weight;
 	}

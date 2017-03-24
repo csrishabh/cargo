@@ -1,5 +1,6 @@
 <div  ng-include="'header.html'"></div>
 <div ng-controller = "BookingController as  ccontroller" class="container-fluid">
+<div ng-include="'paidBy.html'"></div>
     	<div class ="row">
     		<div class="col-md-2">
     		<label>Bulti Number:</label>
@@ -16,9 +17,9 @@
     		<label>Consignor Name:</label>
     		</div>
     		<div class="col-md-8">
-    		<select next-on-enter ui-select2 class ="form-control" ng-model="consignor_index" ng-change="selectConsignor()">
-    			 <option value=""></option>
-    			 <option ng-repeat="consignor in consignors" value="{{$index}}">{{consignor.name}}</option>
+    		<select id="consignorName" ui-select2 class ="form-control" ng-model="consignor_index" ng-change="selectConsignor()">
+    			 <option value="0">Please Select</option>
+    			 <option ng-repeat="consignor in consignors" value="{{$index+1}}">{{consignor.name}}</option>
     		</select>
     		
     		<input type="hidden" next-on-enter type="text" class="form-control" id="consignor_Id" ng-model="consignor.id">
@@ -73,21 +74,21 @@
     		
     		<div class="col-md-3">
     			<label class="radio-inline">
-     			 <input next-on-enter type="radio" name="payment_Type" value = "Cash" ng-model="consignment.payment_Type">Cash
+     			 <input next-on-enter type="radio" name="payment_Type" value = "Cash" ng-model="consignment.payment_Type" data-toggle="modal" ng-change=selectPaidBy(consignment.payment_Type)>Cash
    		 		</label>
     		</div>
     		
     		
     		<div class="col-md-3">
     			<label class="radio-inline">
-     			 <input next-on-enter type="radio" name="payment_Type" value = "Credit" ng-model="consignment.payment_Type">Credit
+     			 <input next-on-enter type="radio" name="payment_Type" value = "Credit" ng-model="consignment.payment_Type" data-toggle="modal" ng-change=selectPaidBy(consignment.payment_Type)>Credit
    		 		</label>
     		</div>
     		
     	
     		<div class="col-md-3">
     			<label class="radio-inline">
-     			 <input next-on-enter type="radio" name="payment_Type" value = "To Pay" ng-model="consignment.payment_Type">To Pay
+     			 <input next-on-enter type="radio" name="payment_Type" value = "To Pay" ng-model="consignment.payment_Type" data-toggle="modal" ng-change=selectPaidBy(consignment.payment_Type)>To Pay
    		 		</label>
     		</div>
     	</div>
@@ -135,9 +136,9 @@
     		<label>Consignee Name:</label>
     		</div>
     		<div class="col-md-8">
-    		<select next-on-enter ui-select2 class ="form-control" ng-model="consignee_index" ng-change="selectConsignee()">
-    			 <option value=""></option>
-    			 <option ng-repeat="consignee in consignees" value="{{$index}}">{{consignee.name}}</option>
+    		<select id="consigneeName" next-on-enter ui-select2 class ="form-control" ng-model="consignee_index" ng-change="selectConsignee()">
+    			 <option value="0">Please Select</option>
+    			 <option ng-repeat="consignee in consignees" value="{{$index+1}}">{{consignee.name}}</option>
     		</select> 
     		<input type="hidden" next-on-enter type="text" class="form-control" id="consignee_Id" ng-model="consignee.id">
     		<input type="hidden" next-on-enter type="text" class="form-control" id="consignee_Name" ng-model="consignee.name">   		
