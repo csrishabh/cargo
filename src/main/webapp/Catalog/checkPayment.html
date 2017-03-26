@@ -1,0 +1,133 @@
+
+<div class="container">
+	<div ng-include="'header.html'"></div>
+    
+	<div ng-controller="paymentController as pcontroller"
+		class="container-fluid">
+		<div ng-include="'paymentInfo.html'"></div>
+		<!-- First Row-->
+		<div class="row">
+			<!-- first column-->
+			<div class="col-md-6">
+
+				<div class="col-md-6">
+					<label class="radio-inline"> <input type="radio"
+						name="persontype" value="CONSIGNOR" ng-model="search.personType"
+						checked="checked">Consignor
+					</label>
+				</div>
+
+
+				<div class="col-md-6">
+					<label class="radio-inline"> <input type="radio"
+						name="persontype" value="CONSIGNEE" ng-model="search.personType">Consignee
+					</label>
+				</div>
+
+			</div>
+			<!-- Second column-->
+			<div class="col-md-6">
+				<div class="col-md-2">
+					<label>From :</label>
+				</div>
+
+				<div class="col-md-4">
+					<input type="date" class="form-control" id=date1
+						ng-model="search.date1">
+				</div>
+
+				<div class="col-md-2">
+					<label>To :</label>
+				</div>
+
+				<div class="col-md-4">
+					<input type="date" class="form-control" id=date1
+						ng-model="search.date2">
+				</div>
+			</div>
+		</div>
+		
+		</br>
+
+		<!-- Second Row -->
+		<div class="row">
+
+			<!-- column first -->
+			<div class="col-md-6">
+				<div class="col-md-2">
+					<label>Type :</label>
+				</div>
+
+				<div class="col-md-2">
+					<label class="radio-inline"> <input type="radio"
+						name="type" value="All" ng-model="search.type" checked="checked">All
+					</label>
+				</div>
+
+
+				<div class="col-md-2">
+					<label class="radio-inline"> <input type="radio"
+						name="type" value="Cash" ng-model="search.type">Cash
+					</label>
+				</div>
+
+				<div class="col-md-3">
+					<label class="radio-inline"> <input type="radio"
+						name="type" value="To Pay" ng-model="search.type">To Pay
+					</label>
+				</div>
+
+				<div class="col-md-2">
+					<label class="radio-inline"> <input type="radio"
+						name="type" value="Credit" ng-model="search.type">Credit
+					</label>
+				</div>
+
+			</div>
+
+		</div>
+		
+		</br>
+		<!-- Third Row-->
+		<div class="row">
+		<div class="select-box col-md-8">
+    		<ui-select ng-model="person.selected"
+               theme="bootstrap"
+               ng-disabled="disabled"
+               reset-search-input="false"
+               style="width: 350px;"
+               title="Choose a Person"
+               append-to-body="true">
+               <ui-select-match placeholder="Enter Name...">{{$select.selected.name}}</ui-select-match>
+               <ui-select-choices repeat="person in persons track by $index"
+               refresh="getPersons(search.personType,$select.search)"
+               refresh-delay="0">
+               <div ng-bind-html="person.name | highlight: $select.search"></div>
+               </ui-select-choices>
+           </ui-select>
+    		</div>
+			<!-- <div class="col-md-8">
+				<select id="personName" ui-select2 class="form-control"
+					ng-model="person_index" ng-change="selectPerson()">
+					<option ng-repeat="person in persons" value="{{$index+1}}">{{person.name}}</option>
+				</select>
+			</div> -->
+		</div>
+
+     </br>
+		<div class="col-md-12">
+			<button  class="btn btn-info pull-right" value="Search"
+				ng-click="getPayments()">Search</button>
+		</div>
+
+
+		<div uib-alert ng-repeat="alert in alerts" type="{{alert.type}}"
+			close="closeAlert($index)" dismiss-on-timeout=2000 class="alert">{{alert.msg}}</div>
+	   </div>
+
+
+</div>
+
+
+
+

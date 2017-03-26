@@ -29,13 +29,24 @@
     		<div class="col-md-1">
     		<label>City:</label>
     		</div>
-    		<div class="col-md-3">
-    		<select next-on-enter ui-select2 class ="dropdown" ng-model="person.city">
-    			 <option value=""></option>
-    			 <option ng-repeat="city in cities" value="{{city.name}}">{{city.name}}</option>
-    		</select>
-    		<!-- <input next-on-enter type="text" class="form-control" id=person_country ng-model="consignment.person_city"> -->
+    		<div class="select-box col-md-3">
+    		<!-- <p>City: {{city.selected}} </p> -->
+    		<ui-select ng-model="city.selected"
+               theme="bootstrap"
+               ng-disabled="disabled"
+               reset-search-input="false"
+               style="width: 150px;"
+               title="Choose a city"
+               append-to-body="true">
+               <ui-select-match placeholder="Enter City Name...">{{$select.selected.name}}</ui-select-match>
+               <ui-select-choices repeat="city in cities track by $index"
+               refresh="getAllCities($select.search)"
+               refresh-delay="0">
+               <div ng-bind-html="city.name | highlight: $select.search"></div>
+               </ui-select-choices>
+           </ui-select>
     		</div>
+    		
     		<div class="col-md-1">
     		<label>Pin:</label>
     		</div>
@@ -57,12 +68,27 @@
     		<div class="col-md-2">
     		<label>Type:</label>
     		</div>
-    		<div class="col-md-10">
+    		<div class="select-box col-md-10">
+    		<!-- <p>Type: {{type.selected}} </p> -->
+    		<ui-select ng-model="type.selected"
+               theme="bootstrap"
+               ng-disabled="disabled"
+               reset-search-input="false"
+               style="width: 150px;"
+               title="Choose type"
+               append-to-body="true">
+               <ui-select-match placeholder="Enter Type...">{{$select.selected.name}}</ui-select-match>
+               <ui-select-choices repeat="type in types | filter: $select.search"> 
+               <div ng-bind-html="type.name | highlight: $select.search"></div>
+               </ui-select-choices>
+           </ui-select>
+    		</div>
+    		<!-- <div class="col-md-10">
     		<select next-on-enter ui-select2 class ="dropdown" ng-model="person.type">
     			 <option value="CONSIGNOR">CONSIGNOR</option>
     			 <option value="CONSIGNEE">CONSIGNEE</option>
     	    </select>
-    		</div>
+    		</div> -->
     	</div>
     	<div uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" dismiss-on-timeout = 2000 class="alert">{{alert.msg}}</div>
     	<button type="submit" class="btn btn-info" value="Add Person" ng-click="pcontroller.addPerson(person)">Add</button>

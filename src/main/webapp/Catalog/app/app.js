@@ -3,7 +3,7 @@ var app = angular.module('store',['ui.bootstrap','ngAnimate','angular-loading-ba
                                   
                                   'ui.grid.moveColumns','ui.grid.expandable','ui.grid.pinning','ui.grid.treeView', 'ui.grid.pagination' ,
    
-                                  'ui.grid.edit', 'ui.grid.rowEdit', 'ui.grid.cellNav','ngSanitize','ui.select2','ngCsv'])
+                                  'ui.grid.edit', 'ui.grid.rowEdit', 'ui.grid.cellNav','ngSanitize','ui.select2', 'ui.select','ngCsv'])
   // set a custom template
 var weburl = "http://localhost:9090/cargo-services";
 var UIUrl = "/cargo/Catalog";
@@ -39,7 +39,11 @@ app.config(function($stateProvider, $urlRouterProvider ,$httpProvider) {
 		url: '/addPerson',
 		templateUrl: UIUrl+'/addPerson.html'
 	})
-
+	
+    .state('showPayment',{
+		url: '/showPayment',
+		templateUrl: UIUrl+'/checkPayment.html'
+	})
 	
 	$httpProvider.defaults.useXDomain = true;
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
@@ -102,32 +106,190 @@ app.controller('myctrl2', function($location){
 	this.addPerson = function(consignments){
 		$location.path('/addPerson')
 	}
+	this.showPayment = function(consignments){
+		$location.path('/showPayment')
+	}
 });
+
+
+app.controller('paymentController', [ '$http' ,'$scope', '$filter' ,function($http , $scope , $filter){
+	
+	$scope.persons=[]
+	$scope.search = {};
+	$scope.person = {};
+	$scope.payments;
+	$scope.totalDue = 0 ;
+	$scope.addPayment = false;
+	$scope.totalPaid = 0;
+	$scope.payment ={};
+	
+	$scope.getPersons = function(type,name){
+		
+		if(type != undefined && name != ""){
+		$http.get(weburl+"/rest/get/person/"+type+"/"+name).success(function(data){	
+			$scope.persons = data;
+		});
+		}
+	}
+	
+	$scope.getPayments = function(){
+		
+		if($scope.person.selected == undefined){
+			$scope.addAlert('warning', 'Please select Person First');
+			
+		}
+		
+		else{
+			var personId = $scope.person.selected.id;
+			var type = 'ALL';
+			if($scope.search.type != undefined){
+			type = $scope.search.type;
+			}
+			var currDate = $filter('date')(new Date(), 'dd-MM-yyyy');
+		
+			var date1 = currDate;
+			var date2 = currDate;
+		
+			if($scope.search.date1 != undefined){
+			date1  = $filter('date')($scope.search.date1, 'dd-MM-yyyy');
+			}
+			if($scope.search.date2 != undefined){
+				date2  = $filter('date')($scope.search.date2, 'dd-MM-yyyy');
+			}
+			
+			if(date1 > date2){
+			$scope.addAlert('warning', 'FROM date can not be less greater then TO date');
+			}
+			
+			else{
+			
+				var url = weburl+"/rest/due/person?"+"id="+ personId + "&type=" + type +"&date1=" + date1 + "&date2=" + date2;
+				$http.get(url).success(function(data){	
+					$scope.totalDue = data;	
+				},
+				function(data){
+					$scope.addAlert('danger', 'You have entered worng data');
+				})
+				
+				var url = weburl+"/rest/person/payment?"+"id="+ personId +"&date1=" + date1 + "&date2=" + date2;
+				$http.get(url).success(function(data){	
+					$scope.payments = data;	
+					$scope.getTotalPaidAmount(data);
+					$('#paymentDedtailsModal').modal('show');
+				},
+				function(data){
+					$scope.addAlert('danger', 'You have entered worng data');
+				})
+				
+		     
+		   }
+	 }
+	}
+	
+	$scope.generatePaymentReport = function(){
+		var personId = $scope.person.id;
+			var type = 'ALL';
+			if($scope.search.type != undefined){
+			type = $scope.search.type;
+			}
+			var currDate = $filter('date')(new Date(), 'dd-MM-yyyy');
+		
+			var date1 = currDate;
+			var date2 = currDate;
+		
+			if($scope.search.date1 != undefined){
+			date1  = $filter('date')($scope.search.date1, 'dd-MM-yyyy');
+			}
+			if($scope.search.date2 != undefined){
+				date2  = $filter('date')($scope.search.date2, 'dd-MM-yyyy');
+			}
+			
+			if(date1 > date2){
+			$scope.addAlert('warning', 'FROM date can not be less greater then TO date');
+			}
+		var url = weburl+"/rest/payment/report?"+"id="+ personId+ "&type=" + type +"&date1=" + date1 + "&date2=" + date2;
+		$http.get(url, { responseType: "arraybuffer" }).success(function(data){
+			
+			saveAs(new Blob([data],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}), "PaymentSheet.xlsx");
+		})
+	}
+	$scope.getTotalPaidAmount = function(payments){
+		var total = 0;
+		for(var i= 0 ; i<payments.length ; i++){
+			total = total + payments[i].amount;
+		}
+		$scope.totalPaid = total;
+	}
+	
+	$scope.savePayment = function(payment){
+		$scope.addPayment = false;
+		$http.post(weburl+"/rest/add/person/payment/"+$scope.person.selected.id, payment).success(function(data){	
+		data.date = $filter('date')(data.date, 'yyyy-MM-dd');
+		$scope.payments.push(data);	
+		$scope.totalPaid = $scope.totalPaid + data.amount;
+		$scope.addAlert('success', 'Payment Added successfully');	
+		});	
+		
+	}
+	
+	$scope.addPayments = function(value){
+		$scope.addPayment = value;
+		if(value == false){
+			$scope.payments = {};
+			$scope.totalDue = 0;
+			$scope.totalPaid = 0;
+		}
+	}
+	
+	
+	
+	
+	$scope.alerts = [
+	               ];
+
+	               $scope.addAlert = function(type,messege) {
+	                 $scope.alerts.push({type: type, msg: messege});
+	               };
+
+	               $scope.closeAlert = function(index) {
+	                 $scope.alerts.splice(index, 1);
+	               };
+	
+	
+	}]); 
+
 
 
 app.controller('personController', [ '$http' ,'$scope', function($http , $scope){
 	
 	$scope.cities = [];
+	$scope.city = {};
+	$scope.type = {};
+	$scope.types = [
+		  
+	    {name: 'CONSIGNOR'},
+	    {name: 'CONSIGNEE'}];
 
 	this.addPerson = function(person){
-		
+		person.city = $scope.city.selected.name;
+		person.type = $scope.type.selected.name;
 		$http.post(weburl+'/rest/add/person', person).success(function(data){
 			$scope.addAlert('success', 'Added Successfully');
 			$scope.person = {};
+			$scope.city = {};
+			$scope.type = {};
 		});	
 			
 	}
 	
-   $scope.getAllCities = function(){
-		
-		$http.get(weburl+"/rest/city").success(function(data){	
+   $scope.getAllCities = function(name){
+		if(name != ""){
+		$http.get(weburl+"/rest/city/"+name).success(function(data){	
 			$scope.cities = data;
 		});
 	}
+   }
    
-   $scope.getAllCities();
-	
-	
 	$scope.alerts = [
 	               ];
 
@@ -188,49 +350,40 @@ app.controller('BookingController', [ '$http' ,'$scope', '$document', function($
 	$scope.cities=[];
 	$scope.consignors = [];
 	$scope.consingees = [];
-	$scope.consignor_index;
-	$scope.consignee_index;
-	$scope.consignor;
-	$scope.consignee;
-	$scope.paidBy;
-	
-	$scope.selectConsignor = function(){
-		$scope.consignor  = $scope.consignors[$scope.consignor_index-1];
-	  } 
-	$scope.selectConsignee = function(){
-		$scope.consignee  = $scope.consignees[$scope.consignee_index-1];
-	  } 
-	
+	$scope.consignor ={};
+	$scope.consignee = {};
+
 	this.addConsignment = function(consignment,consignor,consignee){
 		var persons = []; 
-		persons.push(consignor);
-		persons.push(consignee);
+		persons.push(consignor.selected);
+		persons.push(consignee.selected);
 		consignment.persons = persons;
 		$http.post(weburl+'/rest/consignment/create', consignment).success(function(data){	
 			$scope.responceCome = true;
 			$scope.consignment = {};
-			$scope.consignor = {};
-			$scope.consignee = {};
+			$scope.consignor.selected = {};
+			$scope.consignee.selected = {};
 			$scope.getNextId();
-			$scope.consignor_index = null;
-			$scope.consignee_index = null;
-			//document.getElementById("consigneeName").selectedIndex = 0;
-			//document.getElementById("consignorName").selectedIndex = 0;
 			$scope.addAlert('success', 'Item Booked Successfully');
 			//$scope.digest();
 		});	
 	}
 	
-	$scope.getConsignors = function(){
-		$http.get(weburl+"/rest/get/person/CONSIGNOR").success(function(data){	
+	
+	$scope.getConsignors = function(name){
+		if(name != ""){
+		$http.get(weburl+"/rest/get/person/CONSIGNOR/"+name).success(function(data){	
 			$scope.consignors = data;
 		});
 	}
+	}
 	
-	$scope.getConsignees = function(){
-		$http.get(weburl+"/rest/get/person/CONSIGNEE").success(function(data){	
+	$scope.getConsignees = function(name){
+		if(name != ""){
+		$http.get(weburl+"/rest/get/person/CONSIGNEE/"+name).success(function(data){	
 			$scope.consignees = data;
 		});
+		}
 	}
 	
 	$scope.getNextId = function(){
@@ -239,9 +392,8 @@ app.controller('BookingController', [ '$http' ,'$scope', '$document', function($
 		});
 	}
 	
-	$scope.getAllCities = function(){
-		
-		$http.get(weburl+"/rest/city").success(function(data){	
+	$scope.getAllCities = function(name){
+		$http.get(weburl+"/rest/city/"+name).success(function(data){	
 			$scope.cities = data;
 		});
 	}
@@ -269,14 +421,7 @@ app.controller('BookingController', [ '$http' ,'$scope', '$document', function($
 		$scope.consignment.rate = ($scope.basic_freight-($scope.consignment.carrige_charge + $scope.consignment.other_charge + $scope.consignment.s_Tax))/$scope.consignment.weight;
 	}
 	
-	this.checkOnBlur = function(){
-		var a = 10;
-	}
-	
 	$scope.getNextId();
-	$scope.getAllCities();
-	$scope.getConsignors();
-	$scope.getConsignees();
 	$scope.alerts = [
 	               ];
 
@@ -537,7 +682,7 @@ app.controller('ConsignmentController', [ '$http' ,'$scope','myService' ,'$locat
 			date1  = $filter('date')($scope.search.date1, 'dd-MM-yyyy');
 		}
 		if($scope.search.date2 != undefined){
-		date1  = $filter('date')($scope.search.date2, 'dd-MM-yyyy');
+		date2  = $filter('date')($scope.search.date2, 'dd-MM-yyyy');
 		}
 		
 		if($scope.search.type != undefined){
@@ -597,40 +742,6 @@ app.controller('ConsignmentController', [ '$http' ,'$scope','myService' ,'$locat
 		}
 	}
 	
-	
-	this.getPayments = function(consignments){
-		
-		if(consignments.length == 0){
-			$scope.addAlert('warning', 'Please select one consignment to delete');
-			
-		}
-		
-		else if(consignments.length > 1){
-			$scope.addAlert('warning', 'Select only one');
-		}
-		
-		else{
-		$scope.selectConsignmentId = consignments[0].id;
-		$scope.selectConsignmentTotalAmt = consignments[0].total;
-		$http.get(weburl+"/rest/consignment/payment/"+$scope.selectConsignmentId).success(function(data){	
-			$scope.payments = data;
-		});
-		$('#paymentDedtailsModal').modal('show');
-		}
-	}
-	
-	this.savePayment = function(payment){
-		$scope.addPayment = false;
-		$http.post(weburl+"/rest/add/consignment/payment/"+$scope.selectConsignmentId, payment).success(function(data){	
-		$scope.addAlert('success', 'Payment Added successfully');	
-		});	
-		
-	}
-	
-	this.addPayment = function(value){
-		$scope.addPayment = value;
-	}
-	
 	this.generateCsv = function(){
 			 $scope.addAlert('success', 'file download successfully');
 			 return company.gridOptions.data;	
@@ -641,6 +752,7 @@ app.controller('ConsignmentController', [ '$http' ,'$scope','myService' ,'$locat
 app.controller('DispatcherController', [ '$http' ,'$scope','myService','$interval','$location', function($http , $scope, myService , $interval , $location){
 	var company = this;
 	company.consignments = myService.get();
+	$scope.city ={};
 	$scope.cities = [];
 	$scope.mySelections = [];
 	 $scope.alerts = [
@@ -710,26 +822,28 @@ app.controller('DispatcherController', [ '$http' ,'$scope','myService','$interva
 		}
 	}
 	
-    $scope.getAllCities = function(){
+    $scope.getAllCities = function(name){
 		
-		$http.get(weburl+"/rest/via").success(function(data){	
+    	if(name != ""){
+		$http.get(weburl+"/rest/via/"+name).success(function(data){	
 			$scope.cities = data;
 		});
+    	}
 	}
 	
 	$scope.getNextId();
-	$scope.getAllCities();
-	
 	$scope.responceCome = false;
 	this.gridOptions.multiSelect = true;
 	
 	company.gridOptions.data = myService.get();
 
 	this.addDispatcher = function(dispatcher){
+		dispatcher.city = $scope.city.selected.city;
 		dispatcher.consignments = company.consignments;
 		$http.post(weburl+"/rest/dispatcher/create", dispatcher).success(function(data){	
 			$scope.responceCome = true;
 			$scope.dispatcher = {};
+			$scope.city ={};
 			$scope.addAlert('success', 'Items Dispatched successfully');
 			$interval( function() {
 				$location.path('/dispatchDetails')  

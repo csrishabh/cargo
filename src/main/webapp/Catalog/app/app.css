@@ -37,3 +37,19 @@
 	background-color: #0196E3;
 	
 }
+
+.table-fix thead {
+  width: 97%;
+}
+.table-fix tbody {
+  height: 230px;
+  overflow-y: auto;
+  width: 100%;
+}
+.table-fix thead, .table-fix tbody, .table-fix tr, .table-fix td, .table-fix th {
+  display: block;
+}
+.table-fix tbody td, .table-fix thead > tr> th {
+  float: left;
+  border-bottom-width: 0;
+}

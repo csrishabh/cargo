@@ -15,15 +15,23 @@
     	<div class ="row">
     		<div class="col-md-4">
     		<label>Consignor Name:</label>
+    		<!-- <p>Selected: {{consignor.selected.id}}</p> -->
     		</div>
-    		<div class="col-md-8">
-    		<select id="consignorName" ui-select2 class ="form-control" ng-model="consignor_index" ng-change="selectConsignor()">
-    			 <option value="0">Please Select</option>
-    			 <option ng-repeat="consignor in consignors" value="{{$index+1}}">{{consignor.name}}</option>
-    		</select>
-    		
-    		<input type="hidden" next-on-enter type="text" class="form-control" id="consignor_Id" ng-model="consignor.id">
-    		<input type="hidden" next-on-enter type="text" class="form-control" id="consignor_Name" ng-model="consignor.name">
+    		<div class="select-box col-md-8">
+    		<ui-select ng-model="consignor.selected"
+               theme="bootstrap"
+               ng-disabled="disabled"
+               reset-search-input="false"
+               style="width: 350px;"
+               title="Choose a Consignor"
+               append-to-body="true">
+               <ui-select-match placeholder="Enter Name...">{{$select.selected.name}}</ui-select-match>
+               <ui-select-choices repeat="consignor in consignors track by $index"
+               refresh="getConsignors($select.search)"
+               refresh-delay="0">
+               <div ng-bind-html="consignor.name | highlight: $select.search"></div>
+               </ui-select-choices>
+           </ui-select>
     		</div>
     	</div>
     	
@@ -32,7 +40,7 @@
     		<label>Consignor Address:</label>
     		</div>
     		<div class="col-md-7">
-    		<input next-on-enter type="text" class="form-control" id="consignor_Add1" ng-model="consignor.add" ng-readonly="true">
+    		<input next-on-enter type="text" class="form-control" id="consignor_Add1" ng-model="consignor.selected.add" ng-readonly="true">
     		</div>
     	</div>
     	
@@ -42,19 +50,19 @@
     		<label>State:</label>
     		</div>
     		<div class="col-md-3">
-    		<input next-on-enter type="text" class="form-control" id=consignor_State ng-model="consignor.state" ng-readonly="true">
+    		<input next-on-enter type="text" class="form-control" id=consignor_State ng-model="consignor.selected.state" ng-readonly="true">
     		</div>
     		<div class="col-md-1">
     		<label>City:</label>
     		</div>
     		<div class="col-md-3">
-    		<input next-on-enter type="text" class="form-control" id=consignor_City ng-model="consignor.city" ng-readonly="true">
+    		<input next-on-enter type="text" class="form-control" id=consignor_City ng-model="consignor.selected.city" ng-readonly="true">
     		</div>
     		<div class="col-md-1">
     		<label>Pin:</label>
     		</div>
     		<div class="col-md-3">
-    		<input next-on-enter type="text" class="form-control" id=consignor_Pin ng-model="consignor.pin" ng-readonly="true">
+    		<input next-on-enter type="text" class="form-control" id=consignor_Pin ng-model="consignor.selected.pin" ng-readonly="true">
     		</div>
     	</div>
     	
@@ -63,7 +71,7 @@
     		<label>Mobile:</label>
     		</div>
     		<div class="col-md-10">
-    		<input next-on-enter type="text" class="form-control" id="consignor_Mobile" ng-model="consignor.mobile" ng-readonly="true">
+    		<input next-on-enter type="text" class="form-control" id="consignor_Mobile" ng-model="consignor.selected.mobile" ng-readonly="true">
     		</div>
     	</div>
     	
@@ -135,14 +143,28 @@
     		<div class="col-md-4">
     		<label>Consignee Name:</label>
     		</div>
-    		<div class="col-md-8">
+    		<div class="select-box col-md-8">
+    		<ui-select ng-model="consignee.selected"
+               theme="bootstrap"
+               ng-disabled="disabled"
+               reset-search-input="false"
+               style="width: 350px;"
+               title="Choose a Consignee"
+               append-to-body="true">
+               <ui-select-match placeholder="Enter Name...">{{$select.selected.name}}</ui-select-match>
+               <ui-select-choices repeat="consignee in consignees track by $index"
+               refresh="getConsignees($select.search)"
+               refresh-delay="0">
+               <div ng-bind-html="consignee.name | highlight: $select.search"></div>
+               </ui-select-choices>
+           </ui-select>
+    		</div>
+    		<!-- <div class="col-md-8">
     		<select id="consigneeName" next-on-enter ui-select2 class ="form-control" ng-model="consignee_index" ng-change="selectConsignee()">
     			 <option value="0">Please Select</option>
     			 <option ng-repeat="consignee in consignees" value="{{$index+1}}">{{consignee.name}}</option>
-    		</select> 
-    		<input type="hidden" next-on-enter type="text" class="form-control" id="consignee_Id" ng-model="consignee.id">
-    		<input type="hidden" next-on-enter type="text" class="form-control" id="consignee_Name" ng-model="consignee.name">   		
-    		</div>
+    		</select>  		
+    		</div> -->
     	</div>
     	
     	<div class ="row">
@@ -150,7 +172,7 @@
     		<label>Consignee Address:</label>
     		</div>
     		<div class="col-md-7">
-    		<input next-on-enter type="text" class="form-control" id="consignee_Add1" ng-model="consignee.add" ng-readonly="true">
+    		<input next-on-enter type="text" class="form-control" id="consignee_Add1" ng-model="consignee.selected.add" ng-readonly="true">
     		</div>
     	</div>
     	
@@ -160,19 +182,19 @@
     		<label>State:</label>
     		</div>
     		<div class="col-md-3">
-    		<input next-on-enter type="text" class="form-control" id=consignee_State ng-model="consignee.state" ng-readonly="true">
+    		<input next-on-enter type="text" class="form-control" id=consignee_State ng-model="consignee.selected.state" ng-readonly="true">
     		</div>
     		<div class="col-md-1">
     		<label>City:</label>
     		</div>
     		<div class="col-md-3">
-    		<input next-on-enter type="text" class="form-control" id=consignee_City ng-model="consignee.city" ng-readonly="true">
+    		<input next-on-enter type="text" class="form-control" id=consignee_City ng-model="consignee.selected.city" ng-readonly="true">
     		</div>
     		<div class="col-md-1">
     		<label>Pin:</label>
     		</div>
     		<div class="col-md-3">
-    		<input next-on-enter type="text" class="form-control" id=consignee_Pin ng-model="consignee.pin" ng-readonly="true">
+    		<input next-on-enter type="text" class="form-control" id=consignee_Pin ng-model="consignee.selected.pin" ng-readonly="true">
     		</div>
     	</div>
     	
@@ -181,7 +203,7 @@
     		<label>Mobile:</label>
     		</div>
     		<div class="col-md-10">
-    		<input next-on-enter type="text" class="form-control" id="consignee_Mobile" ng-model="consignee.mobile" ng-readonly="true">
+    		<input next-on-enter type="text" class="form-control" id="consignee_Mobile" ng-model="consignee.selected.mobile" ng-readonly="true">
     		</div>
     	</div>
     	

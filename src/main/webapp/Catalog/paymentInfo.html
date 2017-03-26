@@ -6,14 +6,15 @@
     <!-- Modal content-->
     <div class="modal-content" style="border-radius: 25px">
       <div class="modal-header">
-        <button type="button" class="close" ng-click="ccontroller.addPayment(false)" data-dismiss="modal">&times;</button>
+        <button type="button" class="close" ng-click="ccontroller.addPayments(false)" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Payment Details</h4>
        
-        <h4 align="left"><span class="label label-primary">Consignment Number : {{selectConsignmentId}}</span></h4>
-        <h4 align="right"><span class="label label-default">Total Amount : {{selectConsignmentTotalAmt}}</span></h4>
+        <h4 align="left"><span class="label label-primary"> Name : {{person.selected.name}}</span></h4>
+        <h4 ng-if ="search.type === 'Cash'" align="right"><span class="label label-default">Total Amount : {{totalDue}}</span></h4>
+        <h4 ng-if ="search.type != 'Cash'" align="right"><span class="label label-default">Total due Amount : {{totalDue}}</span></h4>
       </div>
   
-      <table class="table table-condensed table-striped table-hover">
+      <table ng-if ="search.type != 'Cash'" class="table table-condensed table-striped table-hover">
         <thead>
             <tr>
                 <th class="text-center">Payment Date</th>
@@ -22,8 +23,8 @@
                 <th class="text-center">Payment Amount</th>
             </tr>
         </thead>
-        <tbody>
-        	<tr ng-repeat="payment in payments">
+        <tbody class = tbody>
+        	<tr  class = tr ng-repeat="payment in payments">
                 <td class="text-center">{{payment.date}}</td>
                 <td class="text-center">{{payment.type}}</td>
                 <td class="text-center">{{payment.chequeNum}}</td>
@@ -44,9 +45,12 @@
         </tbody>
     </table>
       <div class="modal-footer">
-        <button ng-hide="addPayment"type="button" class="btn btn-info" ng-click="ccontroller.addPayment(true)">Add Payment</button>
-        <button ng-show="addPayment" type="button" class="btn btn-info" ng-click="ccontroller.savePayment(payment)">Save</button>
-        <button type="button" class="btn btn-info" data-dismiss="modal" ng-click="ccontroller.addPayment(false)" >Close</button>
+         <h4 ng-if ="search.type != 'Cash'" align="left"><span class="label label-default">Total paid Amount : {{totalPaid}}</span></h4>
+          <h4 ng-if ="search.type != 'Cash'" align="left"><span class="label label-default">Balance : {{totalDue-totalPaid}}</span></h4>
+        <button ng-if ="search.type != 'Cash'" ng-hide="addPayment"type="button" class="btn btn-info" ng-click="addPayments(true)">Add Payments</button>
+        <button ng-show="addPayment" type="button" class="btn btn-info" ng-click="savePayment(payment)">Save</button>
+        <button type="button" class="btn btn-info" data-dismiss="modal" ng-click="addPayments(false)" >Close</button>
+        <button ng-if ="search.type != 'Cash'" type="button" class="btn btn-info" data-dismiss="modal" ng-click="generatePaymentReport()" >Report</button>
       </div>
     </div>
 

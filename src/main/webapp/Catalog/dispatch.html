@@ -32,12 +32,30 @@
     		<label>VIA:</label>
     		</div>
     		
-    		<div class="col-md-2">
+    		<div class="select-box col-md-2">
+    		<!-- <p>City: {{city.selected}} </p> -->
+    		<ui-select ng-model="city.selected"
+               theme="bootstrap"
+               ng-disabled="disabled"
+               reset-search-input="false"
+               style="width: 150px;"
+               title="Choose a city"
+               append-to-body="true">
+               <ui-select-match placeholder="Enter City Name...">{{$select.selected.city}}</ui-select-match>
+               <ui-select-choices repeat="city in cities track by $index"
+               refresh="getAllCities($select.search)"
+               refresh-delay="0">
+               <div ng-bind-html="city.city | highlight: $select.search"></div>
+               </ui-select-choices>
+           </ui-select>
+    		</div>
+    		
+    		<!-- <div class="col-md-2">
     		<select next-on-enter ui-select2 class ="dropdown"  ng-model="dispatcher.city">
     			 <option value=""></option>
     			 <option ng-repeat="city in cities" value="{{city.city}}">{{city.city}}</option>
     		</select>
-    		</div>
+    		</div> -->
     		
     		<div class="col-md-2">
     		<label>State:</label>
