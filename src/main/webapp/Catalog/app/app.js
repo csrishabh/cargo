@@ -207,12 +207,14 @@ app.controller('paymentController', [ '$http' ,'$scope', '$filter' ,function($ht
 			if(date1 > date2){
 			$scope.addAlert('warning', 'FROM date can not be less greater then TO date');
 			}
-		var url = weburl+"/rest/payment/report?"+"id="+ personId+ "&type=" + type +"&date1=" + date1 + "&date2=" + date2;
-		$http.get(url, { responseType: "arraybuffer" }).success(function(data){
-			
-			saveAs(new Blob([data],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}), "PaymentSheet.xlsx");
-		})
+			else{
+				var url = weburl+"/rest/payment/report?"+"id="+ personId+ "&type=" + type +"&date1=" + date1 + "&date2=" + date2;
+				$http.get(url, { responseType: "arraybuffer" }).success(function(data){
+					saveAs(new Blob([data],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}), "PaymentSheet.xlsx");
+				})
+			}
 	}
+	
 	$scope.getTotalPaidAmount = function(payments){
 		var total = 0;
 		for(var i= 0 ; i<payments.length ; i++){
@@ -705,6 +707,40 @@ app.controller('ConsignmentController', [ '$http' ,'$scope','myService' ,'$locat
 			company.gridOptions.data = data;	
 		})
 		};
+	}
+	
+	
+	$scope.generateCollectionReport = function(){
+		var currDate = $filter('date')(new Date(), 'dd-MM-yyyy');
+		var date1 = currDate;
+		var date2 = currDate;
+		var type = 'All';
+		var status = 'All';
+		if($scope.search.date1 != undefined){
+			date1  = $filter('date')($scope.search.date1, 'dd-MM-yyyy');
+		}
+		if($scope.search.date2 != undefined){
+		date2  = $filter('date')($scope.search.date2, 'dd-MM-yyyy');
+		}
+		
+		if($scope.search.type != undefined){
+			type = $scope.search.type;
+		}
+		
+		if($scope.search.status != undefined){
+			status = $scope.search.status;
+		}
+		
+		if(date1 > date2){
+			$scope.addAlert('warning', 'FROM date can not be less greater then TO date');
+		}
+		else{
+		var url = weburl+"/rest/collection/report?"+"type="+ type + "&status=" + status +"&date1=" + date1 + "&date2=" + date2;
+		$http.get(url, { responseType: "arraybuffer" }).success(function(data){
+			
+			saveAs(new Blob([data],{type:"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}), "CollectionReport.xlsx");
+		})
+		}
 	}
 	
 	this.deleteConsignments = function(consignments){

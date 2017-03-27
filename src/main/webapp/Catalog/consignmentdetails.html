@@ -83,10 +83,8 @@
     		<button  class="btn btn-info" value="Search" ng-click ="ccontroller.getConsignments(search)">Search</button>
     		</div>
     		<div class="col-md-4">
-    		<button class="btn btn-info pull-right"
-              ng-csv="ccontroller.generateCsv()" filename="Collection Report.csv" field-separator="," decimal-separator="." csv-header="getHeader()"
-              >Export</button>
-             </div>
+    		<button  class="btn btn-info pull-right" value="Export" ng-click ="generateCollectionReport()">Export</button>
+            </div>
     		</div>
     </div>
   
