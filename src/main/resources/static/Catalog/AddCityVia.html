@@ -11,14 +11,14 @@
     		
     		<div class="col-md-3">
     			<label class="radio-inline">
-     			 <input next-on-enter type="radio" name="type" value = "via" ng-model="type">Via
+     			 <input id = "via" next-on-enter type="radio" name="type" value = "via" ng-model="type" tabindex="1">Via
    		 		</label>
     		</div>
     		
     		
     		<div class="col-md-3">
     			<label class="radio-inline">
-     			 <input next-on-enter type="radio" name="type" value = "city" ng-model="type">city
+     			 <input next-on-enter type="radio" name="type" value = "city" ng-model="type" tabindex="2">city
    		 		</label>
     		</div>
     		
@@ -29,12 +29,12 @@
     		<label>Value:</label>
     		</div>
     		<div class="col-md-8">
-    		<input next-on-enter type="text" class="form-control" id="remarks" ng-model="value">
+    		<input next-on-enter type="text" class="form-control" id="remarks" ng-model="value" tabindex="3">
     		</div>
     	</div>
     	
     		
-    		<button type="submit" class="btn btn-info" value="Add" ng-click="cvcontroller.add(value,type)">Add</button>
+    		<button type="submit" class="btn btn-info" value="Add" ng-click="cvcontroller.add(value,type)" tabindex="4">Add</button>
     		
     		<div uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" dismiss-on-timeout = 2000 class="alert">{{alert.msg}}</div>
         

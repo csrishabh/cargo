@@ -11,16 +11,16 @@
 			<div class="col-md-6">
 
 				<div class="col-md-6">
-					<label class="radio-inline"> <input type="radio"
+					<label class="radio-inline"> <input id = "consignor" type="radio"
 						name="persontype" value="CONSIGNOR" ng-model="search.personType"
-						checked="checked">Consignor
+						checked="checked" tabindex="1">Consignor
 					</label>
 				</div>
 
 
 				<div class="col-md-6">
 					<label class="radio-inline"> <input type="radio"
-						name="persontype" value="CONSIGNEE" ng-model="search.personType">Consignee
+						name="persontype" value="CONSIGNEE" ng-model="search.personType" tabindex="2">Consignee
 					</label>
 				</div>
 
@@ -33,7 +33,7 @@
 
 				<div class="col-md-4">
 					<input type="date" class="form-control" id=date1
-						ng-model="search.date1">
+						ng-model="search.date1" tabindex="3">
 				</div>
 
 				<div class="col-md-2">
@@ -42,7 +42,7 @@
 
 				<div class="col-md-4">
 					<input type="date" class="form-control" id=date1
-						ng-model="search.date2">
+						ng-model="search.date2" tabindex="4">
 				</div>
 			</div>
 		</div>
@@ -60,26 +60,26 @@
 
 				<div class="col-md-2">
 					<label class="radio-inline"> <input type="radio"
-						name="type" value="All" ng-model="search.type" checked="checked">All
+						name="type" value="All" ng-model="search.type" checked="checked" tabindex="6">All
 					</label>
 				</div>
 
 
-				<div class="col-md-2">
+				<!-- <div class="col-md-2">
 					<label class="radio-inline"> <input type="radio"
 						name="type" value="Cash" ng-model="search.type">Cash
 					</label>
-				</div>
+				</div> -->
 
 				<div class="col-md-3">
 					<label class="radio-inline"> <input type="radio"
-						name="type" value="To Pay" ng-model="search.type">To Pay
+						name="type" value="To Pay" ng-model="search.type" tabindex="7">To Pay
 					</label>
 				</div>
 
 				<div class="col-md-2">
 					<label class="radio-inline"> <input type="radio"
-						name="type" value="Credit" ng-model="search.type">Credit
+						name="type" value="Credit" ng-model="search.type" tabindex="8">Credit
 					</label>
 				</div>
 
@@ -97,7 +97,7 @@
                reset-search-input="false"
                style="width: 350px;"
                title="Choose a Person"
-               append-to-body="true">
+               append-to-body="true" tabindex="9">
                <ui-select-match placeholder="Enter Name...">{{$select.selected.name}}</ui-select-match>
                <ui-select-choices repeat="person in persons track by $index"
                refresh="getPersons(search.personType,$select.search)"
@@ -117,7 +117,7 @@
      </br>
 		<div class="col-md-12">
 			<button  class="btn btn-info pull-right" value="Search"
-				ng-click="getPayments()">Search</button>
+				ng-click="getPayments()" tabindex="10">Search</button>
 		</div>
 
 

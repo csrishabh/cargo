@@ -9,7 +9,7 @@
     		</div>
     		
     		<div class="col-md-4">
-    		<input type="date" class="form-control" id=date1 ng-model="search.date1">
+    		<input id = "date" type="date" class="form-control" id=date1 ng-model="search.date1" tabindex="1">
     		</div>
     		
     		<div class="col-md-1">
@@ -17,18 +17,18 @@
     		</div>
     		
     		<div class="col-md-4">
-    		<input type="date" class="form-control" id=date1 ng-model="search.date2" >
+    		<input type="date" class="form-control" id=date1 ng-model="search.date2" tabindex="2">
     		</div>
     		
     		<div class="col-md-2">
-    		<button  class="btn btn-info" value="Search" ng-click ="getDispatchers()">Search</button>
+    		<button  class="btn btn-info" value="Search" ng-click ="getDispatchers()" tabindex="3">Search</button>
     		</div>
     		
     	    </div>
             
             <div class="row">
             <div class="col-md-12">
-    		<div ui-grid="gridOptions"  ui-grid-pinning ui-grid-expandable class="myGrid"></div>
+    		<div ui-grid="gridOptions"  ui-grid-pinning ui-grid-expandable class="myGrid" tabindex="-1"></div>
     		</div>	
     		</div>
     	

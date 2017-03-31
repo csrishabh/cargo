@@ -8,13 +8,13 @@
     		<label>Dispatch ID:</label>
     		</div>
     		<div class="col-md-2">
-    		<input type="text" class="form-control" id="consignor_id" ng-model="dispatcher.id" ng-readonly="true" ng-init = "dispatcher.id=0">
+    		<input type="text" class="form-control" id="consignor_id" ng-model="dispatcher.id" ng-readonly="true" ng-init = "dispatcher.id=0" tabindex="-1">
     		</div>
     	    </div>
             
             <div class="row">
             <div class="col-md-12">
-    		<div ui-grid="dcontroller.gridOptions"  ui-grid-resize-columns ui-grid-selection class="myGrid"></div>
+    		<div ui-grid="dcontroller.gridOptions"  ui-grid-resize-columns ui-grid-selection class="myGrid" tabindex="-1"></div>
     		</div>	
     		</div>
     		
@@ -25,7 +25,7 @@
     		</div>
             
             <div class="col-md-2">
-    		<input next-on-enter type="text" class="form-control" id="consignor_Name" ng-model="dispatcher.driver_Name">
+    		<input id ="name" next-on-enter type="text" class="form-control" id="consignor_Name" ng-model="dispatcher.driver_Name" tabindex="1">
     		</div>	
     		
     		<div class="col-md-2">
@@ -40,7 +40,7 @@
                reset-search-input="false"
                style="width: 150px;"
                title="Choose a city"
-               append-to-body="true">
+               append-to-body="true" tabindex="2">
                <ui-select-match placeholder="Enter City Name...">{{$select.selected.city}}</ui-select-match>
                <ui-select-choices repeat="city in cities track by $index"
                refresh="getAllCities($select.search)"
@@ -62,13 +62,13 @@
     		</div>
     			
     		<div class="col-md-2">
-    		<input next-on-enter type="text" class="form-control" id="consignor_Name" ng-model="dispatcher.state">
+    		<input next-on-enter type="text" class="form-control" id="consignor_Name" ng-model="dispatcher.state" tabindex="3">
     		</div>	
     		</div>
     		
     		<div class="row">
             <div class="col-md-2">
-    		<button class="btn btn-info"  value="Submit" ng-click="dcontroller.addDispatcher(dispatcher)">Submit</button>
+    		<button class="btn btn-info"  value="Submit" ng-click="dcontroller.addDispatcher(dispatcher)" tabindex="4">Submit</button>
     		</div>	
     		</div>
     		<div uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" dismiss-on-timeout = 2000 class="alert">{{alert.msg}}</div>

@@ -77,7 +77,27 @@ app.directive('nextOnEnter', function () {
             });
         }
     }
-})
+});
+
+
+app.directive('input', ['$interval', function($interval) {
+    return {
+      restrict: 'E', // It restricts that the directive will only be a HTML element (tag name), not an attribute.
+      link: function(scope, elm, attr) {
+        if (attr.type === 'checkbox') {
+          elm.on('keypress', function(event) {
+            var keyCode = (event.keyCode ? event.keyCode : event.which);
+            if (keyCode === 13) {
+              event.preventDefault(); // only when enter key is pressed.
+              elm.trigger('click');
+              scope.$apply();
+            }
+          });
+        }
+      }
+    };
+  }
+]);
 
 
 app.controller('myctrl', function($location){
@@ -122,7 +142,10 @@ app.controller('paymentController', [ '$http' ,'$scope', '$filter' ,function($ht
 	$scope.addPayment = false;
 	$scope.totalPaid = 0;
 	$scope.payment ={};
-	
+	$scope.search.date1 = $scope.search.date2 = $scope.payment.date = new Date();
+	document.getElementById('consignor').focus();
+	$scope.search.type = "All";
+	$scope.search.personType = "CONSIGNOR";
 	$scope.getPersons = function(type,name){
 		
 		if(type != undefined && name != ""){
@@ -187,7 +210,7 @@ app.controller('paymentController', [ '$http' ,'$scope', '$filter' ,function($ht
 	}
 	
 	$scope.generatePaymentReport = function(){
-		var personId = $scope.person.id;
+		var personId = $scope.person.selected.id;
 			var type = 'ALL';
 			if($scope.search.type != undefined){
 			type = $scope.search.type;
@@ -271,7 +294,7 @@ app.controller('personController', [ '$http' ,'$scope', function($http , $scope)
 		  
 	    {name: 'CONSIGNOR'},
 	    {name: 'CONSIGNEE'}];
-
+	document.getElementById('name').focus();
 	this.addPerson = function(person){
 		person.city = $scope.city.selected.name;
 		person.type = $scope.type.selected.name;
@@ -309,7 +332,8 @@ app.controller('personController', [ '$http' ,'$scope', function($http , $scope)
 app.controller('CityViaController', [ '$http' ,'$scope', function($http , $scope){
 	
 	$scope.cities=[];
-	
+	document.getElementById('via').focus();
+	$scope.type = "via";
 	this.add = function(value,type){
 		if(type === undefined){
 			$scope.addAlert('warning', 'Please Select Type First');	
@@ -354,9 +378,29 @@ app.controller('BookingController', [ '$http' ,'$scope', '$document', function($
 	$scope.consingees = [];
 	$scope.consignor ={};
 	$scope.consignee = {};
-
+    $scope.consignment={};
+    $scope.consignment.payment_Type ='Cash';
+    $scope.consignment.paidBy = 'CONSIGNOR';
+    document.getElementById('name').focus();
 	this.addConsignment = function(consignment,consignor,consignee){
 		var persons = []; 
+		if( $scope.consignment.payment_Type =='Cash'){
+			$scope.consignor.selected.type = 'CONSIGNOR';
+			$scope.consignee.selected.type = 'CONSIGNEE';
+			$scope.consignor.selected.category = 'ADHOC';
+			$scope.consignee.selected.category = 'ADHOC';	
+		}
+		else{
+			if($scope.consignment.paidBy == 'CONSIGNOR'){
+				$scope.consignee.selected.type = 'CONSIGNEE';
+				$scope.consignee.selected.category = 'ADHOC';
+			}
+			else if($scope.consignment.paidBy == 'CONSIGNEE'){
+				$scope.consignor.selected.type = 'CONSIGNOR';
+				$scope.consignor.selected.category = 'ADHOC';
+			}
+			
+		}
 		persons.push(consignor.selected);
 		persons.push(consignee.selected);
 		consignment.persons = persons;
@@ -366,6 +410,8 @@ app.controller('BookingController', [ '$http' ,'$scope', '$document', function($
 			$scope.consignor.selected = {};
 			$scope.consignee.selected = {};
 			$scope.getNextId();
+			$scope.consignment.payment_Type ='Cash';
+		    $scope.consignment.paidBy = 'CONSIGNOR';
 			$scope.addAlert('success', 'Item Booked Successfully');
 			//$scope.digest();
 		});	
@@ -401,13 +447,17 @@ app.controller('BookingController', [ '$http' ,'$scope', '$document', function($
 	}
 	
 	$scope.selectPaidBy = function(value){
+		$scope.consignor.selected = {};
+		$scope.consignee.selected = {};
 		if(value == "Cash"){
-		$scope.header = "Paid By";
+		return;
 		}
 		else{
 			$scope.header = "Due on";
 		}
+		document.getElementById('CONSIGNOR').focus();
 		$('#paidByModal').modal('show');
+		
 	}
 	
 	$scope.closeModel = function(){
@@ -420,6 +470,10 @@ app.controller('BookingController', [ '$http' ,'$scope', '$document', function($
 	}
 	
 	this.updateRate = function(){
+		if($scope.basic_freight == undefined || $scope.basic_freight == ""  || !angular.isNumber($scope.basic_freight)){
+			$scope.checked = false;
+			return;
+		}
 		$scope.consignment.rate = ($scope.basic_freight-($scope.consignment.carrige_charge + $scope.consignment.other_charge + $scope.consignment.s_Tax))/$scope.consignment.weight;
 	}
 	
@@ -440,7 +494,9 @@ app.controller('BookingController', [ '$http' ,'$scope', '$document', function($
 
 
 app.controller('DispatcherDetails', [ '$http' ,'$scope','$filter','$q','$interval', function($http , $scope ,$filter,$q,$interval){
-	
+	$scope.search = {};
+	$scope.search.date1 = $scope.search.date2 = new Date();
+	document.getElementById('date').focus();
 	var subGridColDef = [{field: 'id', displayName: 'Bulti Number' , width: '10%' ,enableColumnMenu: false ,enableCellEdit: false},
 	                     {field:'consignor', displayName:'Consinor',enableColumnMenu: false,enableCellEdit: false ,width: '10%'},
 	                     {field: 'consignor_Add1', displayName: 'add' ,visible:false},
@@ -501,7 +557,6 @@ app.controller('DispatcherDetails', [ '$http' ,'$scope','$filter','$q','$interva
         });
     }
 		  }
-	
 	
 	
 	$scope.saveRow = function( rowEntity ) {
@@ -590,6 +645,10 @@ app.controller('ConsignmentController', [ '$http' ,'$scope','myService' ,'$locat
 	$scope.search = {};
 	company.consignments = [];
 	$scope.mySelections = [];
+	$scope.search.date1 = $scope.search.date2 = new Date();
+	$scope.search.type = "All";
+	$scope.search.status = "BOOKED";
+	document.getElementById('all').focus();
 	 $scope.alerts = [
 	                   ];
 
@@ -791,7 +850,8 @@ app.controller('DispatcherController', [ '$http' ,'$scope','myService','$interva
 	$scope.city ={};
 	$scope.cities = [];
 	$scope.mySelections = [];
-	 $scope.alerts = [
+	document.getElementById('name').focus();
+	$scope.alerts = [
 	                   ];
 
 	  	               $scope.addAlert = function(type,messege) {

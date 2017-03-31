@@ -1,7 +1,7 @@
 
 <!-- Modal -->
 <div id="paidByModal" class="modal fade bs-example-modal-lg" role="dialog" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog modal-sm">
+  <div class="modal-dialog modal-sm" tabindex="-1">
 
     <!-- Modal content-->
     <div class="modal-content" style="border-radius: 25px">
@@ -12,20 +12,20 @@
        <div align="center">
     		
     			<label class="radio-inline">
-     			 <input next-on-enter type="radio" name="paid_by" value = "CONSIGNOR" ng-model="consignment.paidBy">CONSIGNOR
+     			 <input next-on-enter type="radio" name="paid_by"  id = "CONSIGNOR" value = "CONSIGNOR" ng-model="consignment.paidBy" tabindex="-1">CONSIGNOR
    		 		</label>
     		
     		
     		
     		
     			<label class="radio-inline">
-     			 <input next-on-enter type="radio" name="paid_by" value = "CONSIGNEE" ng-model="consignment.paidBy">CONSIGNEE
+     			 <input next-on-enter type="radio" name="paid_by" value = "CONSIGNEE" ng-model="consignment.paidBy" tabindex="-1">CONSIGNEE
    		 		</label>
     	</div>	
     	
       
       <div class="modal-footer">
-      <button type="button" class="btn btn-info btn-xs" ng-click ="closeModel()">OK</button>
+      <button type="button" class="btn btn-info btn-xs" ng-click ="closeModel()" tabindex="-1">OK</button>
       </div>
     </div>
 

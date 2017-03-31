@@ -5,7 +5,7 @@
     		<label>Name:</label>
     		</div>
     		<div class="col-md-8">
-    		<input next-on-enter type="text" class="form-control" id="person_Name" ng-model="person.name">
+    		<input id = "name" next-on-enter type="text" class="form-control" id="person_Name" ng-model="person.name" tabindex="1">
     		</div>
     	</div>
     	
@@ -14,7 +14,7 @@
     		<label>Address:</label>
     		</div>
     		<div class="col-md-7">
-    		<input next-on-enter type="text" class="form-control" id="person_Add1" ng-model="person.add">
+    		<input next-on-enter type="text" class="form-control" id="person_Add1" ng-model="person.add" tabindex="2">
     		</div>
     	</div>
     	
@@ -24,7 +24,7 @@
     		<label>State:</label>
     		</div>
     		<div class="col-md-3">
-    		<input next-on-enter type="text" class="form-control" id=person_State ng-model="person.state">
+    		<input next-on-enter type="text" class="form-control" id=person_State ng-model="person.state" tabindex="3">
     		</div>
     		<div class="col-md-1">
     		<label>City:</label>
@@ -37,7 +37,7 @@
                reset-search-input="false"
                style="width: 150px;"
                title="Choose a city"
-               append-to-body="true">
+               append-to-body="true" tabindex="4">
                <ui-select-match placeholder="Enter City Name...">{{$select.selected.name}}</ui-select-match>
                <ui-select-choices repeat="city in cities track by $index"
                refresh="getAllCities($select.search)"
@@ -51,7 +51,7 @@
     		<label>Pin:</label>
     		</div>
     		<div class="col-md-3">
-    		<input next-on-enter type="text" class="form-control" id=person_Pin ng-model="person.pin">
+    		<input next-on-enter type="text" class="form-control" id=person_Pin ng-model="person.pin" tabindex="5">
     		</div>
     	</div>
     	
@@ -60,7 +60,7 @@
     		<label>Mobile:</label>
     		</div>
     		<div class="col-md-10">
-    		<input next-on-enter type="text" class="form-control" id="person_Mobile" ng-model="person.mobile">
+    		<input next-on-enter type="text" class="form-control" id="person_Mobile" ng-model="person.mobile" tabindex="6">
     		</div>
     	</div>
     	
@@ -76,7 +76,7 @@
                reset-search-input="false"
                style="width: 150px;"
                title="Choose type"
-               append-to-body="true">
+               append-to-body="true" tabindex="7">
                <ui-select-match placeholder="Enter Type...">{{$select.selected.name}}</ui-select-match>
                <ui-select-choices repeat="type in types | filter: $select.search"> 
                <div ng-bind-html="type.name | highlight: $select.search"></div>
@@ -91,6 +91,6 @@
     		</div> -->
     	</div>
     	<div uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" dismiss-on-timeout = 2000 class="alert">{{alert.msg}}</div>
-    	<button type="submit" class="btn btn-info" value="Add Person" ng-click="pcontroller.addPerson(person)">Add</button>
+    	<button type="submit" class="btn btn-info" value="Add Person" ng-click="pcontroller.addPerson(person)" tabindex="8">Add</button>
   </div>
  	
