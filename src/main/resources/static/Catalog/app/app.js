@@ -391,8 +391,14 @@ app.controller('BookingController', [ '$http' ,'$scope', '$document', function($
     $scope.consignment={};
     $scope.consignment.payment_Type ='Cash';
     $scope.consignment.paidBy = 'CONSIGNOR';
+    $scope.consignment.type = 'CRTN';
+    $scope.consignment.entry_Date = new Date();
     document.getElementById('name').focus();
 	this.addConsignment = function(consignment,consignor,consignee){
+		if($scope.consignment.entry_Date >  new Date() ){
+			$scope.addAlert('warning', 'You can not book an consignment in future date');
+			return;
+		}
 		var persons = []; 
 		if( $scope.consignment.payment_Type =='Cash'){
 			$scope.consignor.selected.type = 'CONSIGNOR';
@@ -423,6 +429,8 @@ app.controller('BookingController', [ '$http' ,'$scope', '$document', function($
 			$scope.consignment.payment_Type ='Cash';
 		    $scope.consignment.paidBy = 'CONSIGNOR';
 			$scope.addAlert('success', 'Item Booked Successfully');
+			$scope.consignment.type = 'CRTN';
+			$scope.consignment.entry_Date = new Date();
 			//$scope.digest();
 		});	
 	}
