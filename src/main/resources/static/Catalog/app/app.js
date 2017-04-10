@@ -134,7 +134,8 @@ app.controller('myctrl2', function($location){
 
 app.controller('paymentController', [ '$http' ,'$scope', '$filter' ,function($http , $scope , $filter){
 	
-	$scope.persons=[]
+	$scope.persons=[];
+	$scope.consignments=[];
 	$scope.search = {};
 	$scope.person = {};
 	$scope.payments;
@@ -186,9 +187,10 @@ app.controller('paymentController', [ '$http' ,'$scope', '$filter' ,function($ht
 			
 			else{
 			
-				var url = weburl+"/rest/due/person?"+"id="+ personId + "&type=" + type +"&date1=" + date1 + "&date2=" + date2;
-				$http.get(url).success(function(data){	
-					$scope.totalDue = data;	
+				var url = weburl+"/rest/get/consignment/person?"+"id="+ personId + "&type=" + type +"&date1=" + date1 + "&date2=" + date2;
+				$http.get(url).success(function(data){
+					$scope.consignments = data;
+					$scope.setTotalDueAmount(data);	
 				},
 				function(data){
 					$scope.addAlert('danger', 'You have entered worng data');
@@ -197,7 +199,7 @@ app.controller('paymentController', [ '$http' ,'$scope', '$filter' ,function($ht
 				var url = weburl+"/rest/person/payment?"+"id="+ personId +"&date1=" + date1 + "&date2=" + date2;
 				$http.get(url).success(function(data){	
 					$scope.payments = data;	
-					$scope.getTotalPaidAmount(data);
+					$scope.setTotalPaidAmount(data);
 					$('#paymentDedtailsModal').modal('show');
 				},
 				function(data){
@@ -238,12 +240,20 @@ app.controller('paymentController', [ '$http' ,'$scope', '$filter' ,function($ht
 			}
 	}
 	
-	$scope.getTotalPaidAmount = function(payments){
+	$scope.setTotalPaidAmount = function(payments){
 		var total = 0;
 		for(var i= 0 ; i<payments.length ; i++){
 			total = total + payments[i].amount;
 		}
 		$scope.totalPaid = total;
+	}
+	
+	$scope.setTotalDueAmount = function(consignments){
+		var total = 0;
+		for(var i= 0 ; i<consignments.length ; i++){
+			total = total + consignments[i].total;
+		}
+		$scope.totalDue = total;
 	}
 	
 	$scope.savePayment = function(payment){

@@ -10,9 +10,38 @@
         <h4 class="modal-title">Payment Details</h4>
        
         <h4 align="left"><span class="label label-primary"> Name : {{person.selected.name}}</span></h4>
-        <h4 ng-if ="search.type === 'Cash'" align="right"><span class="label label-default">Total Amount : {{totalDue}}</span></h4>
-        <h4 ng-if ="search.type != 'Cash'" align="right"><span class="label label-default">Total due Amount : {{totalDue}}</span></h4>
-      </div>
+        <h4 ng-if ="search.type === 'Cash'" align="right"><span class="label label-default" data-toggle="collapse" href="#collapse1">Total Amount : {{totalDue}}</span></h4>
+        <h4 ng-if ="search.type != 'Cash'" align="right"><span class="label label-default" data-toggle="collapse" href="#collapse1">Total due Amount : {{totalDue}}</span></h4>
+				<div id="collapse1" class="panel-collapse collapse">
+					<table ng-if="search.type != 'Cash'"
+						class="table table-condensed table-striped table-hover">
+						<thead>
+							<tr>
+								<th class="text-center">Booking Date</th>
+								<th class="text-center">Consignment ID</th>
+								<th class="text-center">Consignor</th>
+								<th class="text-center">Consignee</th>
+								<th class="text-center">From</th>
+								<th class="text-center">To</th>
+								<th class="text-center">Pay Type</th>
+								<th class="text-center">Total Amount</th>
+							</tr>
+						</thead>
+						<tbody class=tbody>
+							<tr class=tr ng-repeat="consignment in consignments">
+								<td class="text-center">{{consignment.entry_Date}}</td>
+								<td class="text-center">{{consignment.id}}</td>
+								<td class="text-center">{{consignment.consignor}}</td>
+								<td class="text-center">{{consignment.consingee}}</td>
+								<td class="text-center">{{consignment.from}}</td>
+								<td class="text-center">{{consignment.to}}</td>
+								<td class="text-center">{{consignment.payment_Type}}</td>
+								<td class="text-center">{{consignment.total}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+	  </div>
   
       <table ng-if ="search.type != 'Cash'" class="table table-condensed table-striped table-hover">
         <thead>
