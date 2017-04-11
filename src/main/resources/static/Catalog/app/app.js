@@ -132,7 +132,7 @@ app.controller('myctrl2', function($location){
 });
 
 
-app.controller('paymentController', [ '$http' ,'$scope', '$filter' ,function($http , $scope , $filter){
+app.controller('paymentController', [ '$http' ,'$scope', '$filter' , '$window',function($http , $scope , $filter , $window){
 	
 	$scope.persons=[];
 	$scope.consignments=[];
@@ -155,6 +155,12 @@ app.controller('paymentController', [ '$http' ,'$scope', '$filter' ,function($ht
 		});
 		}
 	}
+	
+	 $scope.generatePaymentSummary = function(){
+		 var date1  = $filter('date')($scope.search.date1, 'dd-MM-yyyy');
+		 var date2  = $filter('date')($scope.search.date2, 'dd-MM-yyyy');
+         $window.open(weburl+'/rest/paymentsummary/report?'+"&type=ALL" +"&date1=" + date1 + "&date2=" + date2, '_blank');
+     };
 	
 	$scope.getPayments = function(){
 		
