@@ -145,7 +145,7 @@ app.controller('paymentController', [ '$http' ,'$scope', '$filter' , '$window',f
 	$scope.payment ={};
 	$scope.search.date1 = $scope.search.date2 = $scope.payment.date = new Date();
 	document.getElementById('consignor').focus();
-	$scope.search.type = "All";
+	$scope.search.type = "CREDIT";
 	$scope.search.personType = "CONSIGNOR";
 	$scope.getPersons = function(type,name){
 		
@@ -159,7 +159,7 @@ app.controller('paymentController', [ '$http' ,'$scope', '$filter' , '$window',f
 	 $scope.generatePaymentSummary = function(){
 		 var date1  = $filter('date')($scope.search.date1, 'dd-MM-yyyy');
 		 var date2  = $filter('date')($scope.search.date2, 'dd-MM-yyyy');
-         $window.open(weburl+'/rest/paymentsummary/report?'+"&type=ALL" +"&date1=" + date1 + "&date2=" + date2, '_blank');
+         $window.open(weburl+'/rest/paymentsummary/report?'+"&type=CREDIT" +"&date1=" + date1 + "&date2=" + date2, '_blank');
      };
 	
 	$scope.getPayments = function(){
@@ -406,7 +406,7 @@ app.controller('BookingController', [ '$http' ,'$scope', '$document', function($
 			return;
 		}
 		var persons = []; 
-		if( $scope.consignment.payment_Type =='Cash'){
+		if( $scope.consignment.payment_Type !='Credit'){
 			$scope.consignor.selected.type = 'CONSIGNOR';
 			$scope.consignee.selected.type = 'CONSIGNEE';
 			$scope.consignor.selected.category = 'ADHOC';
@@ -472,7 +472,7 @@ app.controller('BookingController', [ '$http' ,'$scope', '$document', function($
 	$scope.selectPaidBy = function(value){
 		$scope.consignor.selected = {};
 		$scope.consignee.selected = {};
-		if(value == "Cash"){
+		if(value == "Cash" || value == "To Pay"){
 		return;
 		}
 		else{

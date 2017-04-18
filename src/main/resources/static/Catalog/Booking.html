@@ -3,6 +3,7 @@
 <div ng-include="'paidBy.html'"></div>
     	<div class ="row">
     	<div class="col-md-6">
+    		<div class ="row">
     		<div class="col-md-4">
     		<label>Bulti Number:</label>
     		</div>
@@ -12,8 +13,10 @@
     		<div class="col-md-4">
     		<input type="date" class="form-control" id=date ng-model="consignment.entry_Date" tabindex="-1">
     		</div>
+    		</div>
     	</div>	
     	<div class="col-md-6">
+    	<div class ="row">
     		<div class="col-md-3">
     		<label>Payment Type :</label>
     		</div>
@@ -37,6 +40,7 @@
      			 <input next-on-enter type="radio" name="payment_Type" value = "To Pay" ng-model="consignment.payment_Type" data-toggle="modal" ng-change=selectPaidBy(consignment.payment_Type) tabindex="-1">To Pay
    		 		</label>
     		</div>
+    	</div>	
     	</div>
     	</div>
    	
@@ -48,7 +52,7 @@
     		<label>Consignor Name:</label>
     		<!-- <p>Selected: {{consignor.selected.id}}</p> -->
     		</div>
-    		<div ng-show = "consignment.payment_Type != 'Cash' && consignment.paidBy === 'CONSIGNOR'" class="select-box col-md-8">
+    		<div ng-show = "consignment.payment_Type === 'Credit' && consignment.paidBy === 'CONSIGNOR'" class="select-box col-md-8">
     		<ui-select ng-model="consignor.selected"
                theme="bootstrap"
                ng-disabled="disabled"
@@ -65,7 +69,7 @@
            </ui-select>
     		</div>
     		
-    		<div   ng-show = "consignment.payment_Type === 'Cash' || consignment.paidBy != 'CONSIGNOR'" class="col-md-8">
+    		<div   ng-show = "consignment.payment_Type != 'Credit' || consignment.paidBy != 'CONSIGNOR'" class="col-md-8">
     		<input next-on-enter type="text" class="form-control" id="consignor_name" ng-model="consignor.selected.name">
     		</div>
     	</div>
@@ -75,8 +79,8 @@
     		<label>Consignor Address:</label>
     		</div>
     		<div class="col-md-7">
-    		<input ng-show = "consignment.payment_Type === 'Cash' || consignment.paidBy != 'CONSIGNOR'"next-on-enter type="text" class="form-control" id="consignor_Add1" ng-model="consignor.selected.add">
-    		<input ng-show = "consignment.payment_Type != 'Cash' && consignment.paidBy === 'CONSIGNOR'"next-on-enter type="text" class="form-control" id="consignor_Add1" ng-model="consignor.selected.add" ng-readonly="true">
+    		<input ng-show = "consignment.payment_Type != 'Credit' || consignment.paidBy != 'CONSIGNOR'"next-on-enter type="text" class="form-control" id="consignor_Add1" ng-model="consignor.selected.add">
+    		<input ng-show = "consignment.payment_Type === 'Credit' && consignment.paidBy === 'CONSIGNOR'"next-on-enter type="text" class="form-control" id="consignor_Add1" ng-model="consignor.selected.add" ng-readonly="true">
     		</div>
     	</div>
     	
@@ -86,22 +90,22 @@
     		<label>State:</label>
     		</div>
     		<div class="col-md-3">
-    		<input ng-show = "consignment.payment_Type === 'Cash' || consignment.paidBy != 'CONSIGNOR'"next-on-enter type="text" class="form-control" id=consignor_State ng-model="consignor.selected.state">
-    		<input ng-show = "consignment.payment_Type != 'Cash' && consignment.paidBy === 'CONSIGNOR'"next-on-enter type="text" class="form-control" id=consignor_State ng-model="consignor.selected.state" ng-readonly="true">
+    		<input ng-show = "consignment.payment_Type != 'Credit' || consignment.paidBy != 'CONSIGNOR'"next-on-enter type="text" class="form-control" id=consignor_State ng-model="consignor.selected.state">
+    		<input ng-show = "consignment.payment_Type === 'Credit' && consignment.paidBy === 'CONSIGNOR'"next-on-enter type="text" class="form-control" id=consignor_State ng-model="consignor.selected.state" ng-readonly="true">
     		</div>
     		<div class="col-md-1">
     		<label>City:</label>
     		</div>
     		<div class="col-md-3">
-    		<input ng-show = "consignment.payment_Type === 'Cash' || consignment.paidBy != 'CONSIGNOR'"next-on-enter type="text" class="form-control" id=consignor_City ng-model="consignor.selected.city">
-    		<input ng-show = "consignment.payment_Type != 'Cash'&& consignment.paidBy === 'CONSIGNOR'"next-on-enter type="text" class="form-control" id=consignor_City ng-model="consignor.selected.city" ng-readonly="true">
+    		<input ng-show = "consignment.payment_Type != 'Credit' || consignment.paidBy != 'CONSIGNOR'"next-on-enter type="text" class="form-control" id=consignor_City ng-model="consignor.selected.city">
+    		<input ng-show = "consignment.payment_Type === 'Credit'&& consignment.paidBy === 'CONSIGNOR'"next-on-enter type="text" class="form-control" id=consignor_City ng-model="consignor.selected.city" ng-readonly="true">
     		</div>
     		<div class="col-md-1">
     		<label>Pin:</label>
     		</div>
     		<div class="col-md-3">
-    		<input ng-show = "consignment.payment_Type === 'Cash' || consignment.paidBy != 'CONSIGNOR'"next-on-enter type="text" class="form-control" id=consignor_Pin ng-model="consignor.selected.pin">
-    		<input ng-show = "consignment.payment_Type != 'Cash' && consignment.paidBy === 'CONSIGNOR'"next-on-enter type="text" class="form-control" id=consignor_Pin ng-model="consignor.selected.pin" ng-readonly="true">
+    		<input ng-show = "consignment.payment_Type != 'Credit' || consignment.paidBy != 'CONSIGNOR'"next-on-enter type="text" class="form-control" id=consignor_Pin ng-model="consignor.selected.pin">
+    		<input ng-show = "consignment.payment_Type === 'Credit' && consignment.paidBy === 'CONSIGNOR'"next-on-enter type="text" class="form-control" id=consignor_Pin ng-model="consignor.selected.pin" ng-readonly="true">
     		</div>
     	</div>
     	
@@ -110,8 +114,8 @@
     		<label>Mobile:</label>
     		</div>
     		<div class="col-md-10">
-    		<input ng-show = "consignment.payment_Type === 'Cash' || consignment.paidBy != 'CONSIGNOR'"next-on-enter type="text" class="form-control" id="consignor_Mobile" ng-model="consignor.selected.mobile">
-    		<input ng-show = "consignment.payment_Type != 'Cash' && consignment.paidBy === 'CONSIGNOR'"next-on-enter type="text" class="form-control" id="consignor_Mobile" ng-model="consignor.selected.mobile" ng-readonly="true">
+    		<input ng-show = "consignment.payment_Type != 'Credit' || consignment.paidBy != 'CONSIGNOR'"next-on-enter type="text" class="form-control" id="consignor_Mobile" ng-model="consignor.selected.mobile">
+    		<input ng-show = "consignment.payment_Type === 'Credit' && consignment.paidBy === 'CONSIGNOR'"next-on-enter type="text" class="form-control" id="consignor_Mobile" ng-model="consignor.selected.mobile" ng-readonly="true">
     		</div>
     	</div>
   	   	<!-- End Saved consignor -->
@@ -159,7 +163,7 @@
     		<div class="col-md-4">
     		<label>Consignee Name:</label>
     		</div>
-    		<div ng-show = "consignment.payment_Type != 'Cash' && consignment.paidBy === 'CONSIGNEE'" class="select-box col-md-8">
+    		<div ng-show = "consignment.payment_Type === 'Credit' && consignment.paidBy === 'CONSIGNEE'" class="select-box col-md-8">
     		<ui-select ng-model="consignee.selected"
                theme="bootstrap"
                ng-disabled="disabled"
@@ -177,7 +181,7 @@
     		</div>
     		
     		<div class="col-md-8">
-    		  <input ng-show = "consignment.payment_Type === 'Cash' || consignment.paidBy != 'CONSIGNEE'"next-on-enter type="text" class="form-control" id="consignee_name" ng-model="consignee.selected.name">		
+    		  <input ng-show = "consignment.payment_Type != 'Credit' || consignment.paidBy != 'CONSIGNEE'"next-on-enter type="text" class="form-control" id="consignee_name" ng-model="consignee.selected.name">		
     		</div>
     	</div>
     	
@@ -186,8 +190,8 @@
     		<label>Consignee Address:</label>
     		</div>
     		<div class="col-md-7">
-    		<input ng-show = "consignment.payment_Type === 'Cash' || consignment.paidBy != 'CONSIGNEE'"next-on-enter type="text" class="form-control" id="consignee_Add1" ng-model="consignee.selected.add">
-    		<input ng-show = "consignment.payment_Type != 'Cash' && consignment.paidBy === 'CONSIGNEE'" next-on-enter type="text" class="form-control" id="consignee_Add1" ng-model="consignee.selected.add" ng-readonly="true">
+    		<input ng-show = "consignment.payment_Type != 'Credit' || consignment.paidBy != 'CONSIGNEE'"next-on-enter type="text" class="form-control" id="consignee_Add1" ng-model="consignee.selected.add">
+    		<input ng-show = "consignment.payment_Type === 'Credit' && consignment.paidBy === 'CONSIGNEE'" next-on-enter type="text" class="form-control" id="consignee_Add1" ng-model="consignee.selected.add" ng-readonly="true">
     		</div>
     	</div>
     	
@@ -197,22 +201,22 @@
     		<label>State:</label>
     		</div>
     		<div class="col-md-3">
-    		<input ng-show = "consignment.payment_Type === 'Cash' || consignment.paidBy != 'CONSIGNEE'"next-on-enter type="text" class="form-control" id=consignee_State ng-model="consignee.selected.state" >
-    		<input ng-show = "consignment.payment_Type != 'Cash' && consignment.paidBy === 'CONSIGNEE'" next-on-enter type="text" class="form-control" id=consignee_State ng-model="consignee.selected.state" ng-readonly="true">
+    		<input ng-show = "consignment.payment_Type != 'Credit' || consignment.paidBy != 'CONSIGNEE'"next-on-enter type="text" class="form-control" id=consignee_State ng-model="consignee.selected.state" >
+    		<input ng-show = "consignment.payment_Type === 'Credit' && consignment.paidBy === 'CONSIGNEE'" next-on-enter type="text" class="form-control" id=consignee_State ng-model="consignee.selected.state" ng-readonly="true">
     		</div>
     		<div class="col-md-1">
     		<label>City:</label>
     		</div>
     		<div class="col-md-3">
-    		<input ng-show = "consignment.payment_Type === 'Cash' || consignment.paidBy != 'CONSIGNEE'"next-on-enter type="text" class="form-control" id=consignee_City ng-model="consignee.selected.city" >
-    		<input ng-show = "consignment.payment_Type != 'Cash' && consignment.paidBy === 'CONSIGNEE'" next-on-enter type="text" class="form-control" id=consignee_City ng-model="consignee.selected.city" ng-readonly="true">
+    		<input ng-show = "consignment.payment_Type != 'Credit' || consignment.paidBy != 'CONSIGNEE'"next-on-enter type="text" class="form-control" id=consignee_City ng-model="consignee.selected.city" >
+    		<input ng-show = "consignment.payment_Type === 'Credit' && consignment.paidBy === 'CONSIGNEE'" next-on-enter type="text" class="form-control" id=consignee_City ng-model="consignee.selected.city" ng-readonly="true">
     		</div>
     		<div class="col-md-1">
     		<label>Pin:</label>
     		</div>
     		<div class="col-md-3">
-    		<input ng-show = "consignment.payment_Type === 'Cash' || consignment.paidBy != 'CONSIGNEE'"next-on-enter type="text" class="form-control" id=consignee_Pin ng-model="consignee.selected.pin" >
-    		<input ng-show = "consignment.payment_Type != 'Cash' && consignment.paidBy === 'CONSIGNEE'" next-on-enter type="text" class="form-control" id=consignee_Pin ng-model="consignee.selected.pin" ng-readonly="true">
+    		<input ng-show = "consignment.payment_Type != 'Credit' || consignment.paidBy != 'CONSIGNEE'"next-on-enter type="text" class="form-control" id=consignee_Pin ng-model="consignee.selected.pin" >
+    		<input ng-show = "consignment.payment_Type === 'Credit' && consignment.paidBy === 'CONSIGNEE'" next-on-enter type="text" class="form-control" id=consignee_Pin ng-model="consignee.selected.pin" ng-readonly="true">
     		</div>
     	</div>
     	
@@ -221,8 +225,8 @@
     		<label>Mobile:</label>
     		</div>
     		<div class="col-md-10">
-    		<input ng-show = "consignment.payment_Type === 'Cash' || consignment.paidBy != 'CONSIGNEE'" next-on-enter type="text" class="form-control" id="consignee_Mobile" ng-model="consignee.selected.mobile">
-    		<input ng-show = "consignment.payment_Type != 'Cash' && consignment.paidBy === 'CONSIGNEE'" next-on-enter type="text" class="form-control" id="consignee_Mobile" ng-model="consignee.selected.mobile" ng-readonly="true">
+    		<input ng-show = "consignment.payment_Type != 'Credit' || consignment.paidBy != 'CONSIGNEE'" next-on-enter type="text" class="form-control" id="consignee_Mobile" ng-model="consignee.selected.mobile">
+    		<input ng-show = "consignment.payment_Type === 'Credit' && consignment.paidBy === 'CONSIGNEE'" next-on-enter type="text" class="form-control" id="consignee_Mobile" ng-model="consignee.selected.mobile" ng-readonly="true">
     		</div>
     	</div>
     <!-- Consignee Saved End --> 	
