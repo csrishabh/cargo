@@ -7,7 +7,7 @@
     		<label>Bulti Number:</label>
     		</div>
     		<div class="col-md-4">
-    		<input id = "id" type="text" class="form-control" id="consignor_id" ng-model="consignment.id" ng-readonly="true" tabindex="-1">
+    		<input id = "id" type="text" class="form-control" id="consignor_id" ng-model="consignment.displayIndex">
     		</div>
     		<div class="col-md-4">
     		<input type="date" class="form-control" id=date ng-model="consignment.entry_Date" tabindex="-1">
@@ -66,7 +66,7 @@
     		</div>
     		
     		<div   ng-show = "consignment.payment_Type === 'Cash' || consignment.paidBy != 'CONSIGNOR'" class="col-md-8">
-    		<input id = "name" next-on-enter type="text" class="form-control" id="consignor_name" ng-model="consignor.selected.name" tabindex="2">
+    		<input next-on-enter type="text" class="form-control" id="consignor_name" ng-model="consignor.selected.name">
     		</div>
     	</div>
     	

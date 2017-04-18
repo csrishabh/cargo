@@ -399,7 +399,7 @@ app.controller('BookingController', [ '$http' ,'$scope', '$document', function($
     $scope.consignment.paidBy = 'CONSIGNOR';
     $scope.consignment.type = 'CRTN';
     $scope.consignment.entry_Date = new Date();
-    document.getElementById('name').focus();
+    document.getElementById('id').focus();
 	this.addConsignment = function(consignment,consignor,consignee){
 		if($scope.consignment.entry_Date >  new Date() ){
 			$scope.addAlert('warning', 'You can not book an consignment in future date');
@@ -431,7 +431,6 @@ app.controller('BookingController', [ '$http' ,'$scope', '$document', function($
 			$scope.consignment = {};
 			$scope.consignor.selected = {};
 			$scope.consignee.selected = {};
-			$scope.getNextId();
 			$scope.consignment.payment_Type ='Cash';
 		    $scope.consignment.paidBy = 'CONSIGNOR';
 			$scope.addAlert('success', 'Item Booked Successfully');
@@ -501,7 +500,6 @@ app.controller('BookingController', [ '$http' ,'$scope', '$document', function($
 		$scope.consignment.rate = ($scope.basic_freight-($scope.consignment.carrige_charge + $scope.consignment.other_charge + $scope.consignment.s_Tax))/$scope.consignment.weight;
 	}
 	
-	$scope.getNextId();
 	$scope.alerts = [
 	               ];
 
@@ -521,7 +519,7 @@ app.controller('DispatcherDetails', [ '$http' ,'$scope','$filter','$q','$interva
 	$scope.search = {};
 	$scope.search.date1 = $scope.search.date2 = new Date();
 	document.getElementById('date').focus();
-	var subGridColDef = [{field: 'id', displayName: 'Bulti Number' , width: '10%' ,enableColumnMenu: false ,enableCellEdit: false},
+	var subGridColDef = [{field: 'displayIndex', displayName: 'Bulti Number' , width: '10%' ,enableColumnMenu: false ,enableCellEdit: false},
 	                     {field:'consignor', displayName:'Consinor',enableColumnMenu: false,enableCellEdit: false ,width: '10%'},
 	                     {field: 'consignor_Add1', displayName: 'add' ,visible:false},
 	                     {field: 'consignor_Add2', displayName: 'add' ,visible:false},
@@ -700,7 +698,7 @@ app.controller('ConsignmentController', [ '$http' ,'$scope','myService' ,'$locat
 			showGridFooter: true,
 		    showColumnFooter: true,
 			rowTemplate:rowTemplate,
-			columnDefs: [{field: 'id', displayName: 'ID' , width: '5%' ,enableColumnMenu: false},
+			columnDefs: [{field: 'displayIndex', displayName: 'ID' , width: '5%' ,enableColumnMenu: false},
 							 {field:'consignor', displayName:'CONSIGNOR',enableColumnMenu: false,enableCellEdit: false ,width: '6%'},
 		                     {field: 'consignor_Add1', displayName: 'add' ,visible:false},
 		                     {field: 'consignor_Add2', displayName: 'add' ,visible:false},
@@ -813,7 +811,6 @@ app.controller('ConsignmentController', [ '$http' ,'$scope','myService' ,'$locat
 		if($scope.search.status != undefined){
 			status = $scope.search.status;
 		}
-		
 		if(date1 > date2){
 			$scope.addAlert('warning', 'FROM date can not be less greater then TO date');
 		}
@@ -889,7 +886,7 @@ app.controller('DispatcherController', [ '$http' ,'$scope','myService','$interva
 	this.gridOptions = { 
 			enableRowSelection: true,
 			enableFiltering: true,
-			columnDefs: [{field: 'id', displayName: 'Bulti Number' , width: '10%' ,enableColumnMenu: false},
+			columnDefs: [{field: 'displayIndex', displayName: 'Bulti Number' , width: '10%' ,enableColumnMenu: false},
 	                     {field:'consignor_Name', displayName:'NAME' ,visible:false},
 	                     {field: 'consignor_Add1', displayName: 'add' ,visible:false},
 	                     {field: 'consignor_Add2', displayName: 'add' ,visible:false},
